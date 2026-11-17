@@ -548,7 +548,6 @@ body.dragging{-webkit-user-select:none; user-select:none}
 
 <div class="corner">
   <div class="row">
-    <button class="chip" id="tidy" hidden>Tidy up</button>
     <button class="chip ico" id="snd" aria-pressed="false" aria-label="Sound off" title="Sound off"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="spk" d="M4 9.5h3.4L12 5.4v13.2L7.4 14.5H4z"/><path class="wv" d="M15.4 9.4a4 4 0 0 1 0 5.2M18 7.2a7.4 7.4 0 0 1 0 9.6"/><path class="mu" d="M16 9.8l5 4.4M21 9.8l-5 4.4"/></svg></button>
     <button class="chip" id="abt" aria-expanded="false" aria-controls="about">About</button>
   </div>
@@ -3278,10 +3277,8 @@ grid.addEventListener("click",e=>{const c=e.target.closest(".card");if(!c||P.ope
 const AXIS=CAMDIR.clone().normalize();
 const D={press:null,carry:null};
 const cardsAll=()=>[...grid.querySelectorAll(".card")];
-const tidyBtn=$("#tidy");
 function setCard(el,id){const t=TERMS.find(x=>x.id===id);el.dataset.id=id;el.setAttribute("aria-label",t.name);el.querySelector(".name").textContent=t.name}
-function saveOrder(){ORDER=cardsAll().map(c=>c.dataset.id);try{localStorage.setItem("ddyk-order",JSON.stringify(ORDER))}catch(e){}tidyBtn.hidden=ORDER.join()===CANON.join()}
-tidyBtn.hidden=ORDER.join()===CANON.join();
+function saveOrder(){ORDER=cardsAll().map(c=>c.dataset.id);try{localStorage.setItem("ddyk-order",JSON.stringify(ORDER))}catch(e){}}
 function rectOf(r){return{left:r.left,top:r.top,width:r.width,height:r.height}}
 function hop(v,from,o={}){
   const to=(o.toEl||v.el).getBoundingClientRect();
@@ -3770,13 +3767,6 @@ function drop(x,y){
   bloop(380,760,.1,.1);setTimeout(()=>bloop(460,900,.08,.08),180);
   saveOrder();
 }
-tidyBtn.onclick=()=>{
-  if(D.carry||views.some(v=>v.busy))return;
-  const cs=cardsAll();let i=0;
-  views.forEach(v=>{const el=cs[CANON.indexOf(v.id)];if(el!==v.el){const from=v.el.getBoundingClientRect();v.el=el;setCard(el,v.id);hop(v,from,{delay:(i++)*45,dur:640})}});
-  if(i)bloop(420,840,.12,.1);saveOrder();
-};
-
 /* secret combos: designed with each new object */
 const COMBOS=[
   {id:"slug-toasted",test:(a,b)=>a.id==="slug"&&b.id==="toast",run(slug,toast,from){
