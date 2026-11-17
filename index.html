@@ -85,7 +85,7 @@ h2,h3{margin:0; text-wrap:balance}
 
 /* corner */
 .corner{
-  position:fixed; z-index:61; right:max(16px, env(safe-area-inset-right,0px)); bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  position:fixed; z-index:61; left:max(16px, env(safe-area-inset-left,0px)); bottom:calc(16px + env(safe-area-inset-bottom,0px));
   transition:opacity .18s ease;
   display:flex; gap:6px; align-items:flex-end; flex-direction:column;
 }
@@ -442,68 +442,7 @@ body.ovl .corner{opacity:0; pointer-events:none}
 /* play */
 .card{cursor:grab; touch-action:manipulation; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none}
 .card.empty .name{opacity:0!important}
-.qz2-scrim{position:fixed; inset:0; z-index:40; background:rgba(43,38,32,.34);
-  backdrop-filter:blur(3px); opacity:0; transition:opacity .25s ease}
-.qz2-scrim.on{opacity:1}
-.qz2{position:fixed; z-index:50; left:50%; top:50%; transform:translate(-50%,-48%) scale(.96);
-  width:min(440px, calc(100vw - 28px)); max-height:min(86vh, 680px); overflow:auto;
-  background:var(--paper); border-radius:28px; padding:28px 26px 24px;
-  box-shadow:0 30px 70px rgba(43,38,32,.24); opacity:0;
-  transition:opacity .25s ease, transform .4s cubic-bezier(.2,.8,.2,1)}
-.qz2.on{opacity:1; transform:translate(-50%,-50%) scale(1)}
-.qz2-x{position:absolute; top:14px; right:14px; background:var(--card)}
-.qz2-step{margin:0; font-family:var(--mono); font-size:12px; color:var(--ink-2); letter-spacing:.04em}
-.qz2-bar{display:block; height:4px; border-radius:4px; background:var(--card); margin:8px 0 18px; overflow:hidden}
-.qz2-bar i{display:block; height:100%; background:var(--ink); border-radius:4px; transition:width .35s cubic-bezier(.2,.8,.2,1)}
-.qz2-stage{position:relative; aspect-ratio:1/.6; border-radius:20px; background:var(--card); margin:0 0 16px}
-.qz2-ask2{margin:0 0 12px; font-family:var(--mono); font-size:12px; color:var(--ink-2); letter-spacing:.03em}
-.conf{position:fixed; z-index:95; width:9px; height:13px; border-radius:2px; pointer-events:none; top:0; left:0}
-.qz2-why.good{color:var(--ink)}
-.qz2-why.good b{background:var(--mark); color:var(--on-hi); padding:1px 5px; border-radius:4px}
-.qz2-why.bad b{color:var(--red)}
-.qz2-missed{margin:0 0 14px; font-size:13px; color:var(--ink-2); line-height:1.6}
-.qz2-missed b{color:var(--ink); font-weight:800}
-.qz2-ring{display:block; height:6px; border-radius:6px; background:var(--card); margin:0 0 14px; overflow:hidden}
-.qz2-ring i{display:block; height:100%; width:calc(var(--p) * 1%); border-radius:6px;
-  background:linear-gradient(90deg,var(--mark-soft),var(--mark)); animation:fillin .9s cubic-bezier(.2,.8,.2,1) both}
-@keyframes fillin{from{width:0}}
-.qz2-res.hi .qz2-score b{color:var(--ink)}
-.qz2-score b{display:inline-block; min-width:1.1ch}
-.qz2-seal{display:inline-flex; align-items:center; gap:7px; margin:2px 0 6px;
-  background:var(--ink); color:var(--paper); border-radius:999px; padding:7px 15px 7px 11px;
-  font-weight:850; font-size:13px; letter-spacing:.01em;
-  animation:sealin .55s cubic-bezier(.2,1.5,.4,1) both .25s}
-.qz2-seal::before{content:""; width:16px; height:16px; border-radius:50%;
-  background:radial-gradient(circle at 34% 32%, #FFF0B8, var(--mark) 62%, #7CBE46)}
-.qz2-seal i{font-style:normal}
-@keyframes sealin{from{opacity:0; transform:scale(.6) rotate(-8deg)}}
-.qz2-why{cursor:pointer}
-.qz2-next:focus-visible{outline:2.5px solid var(--ink); outline-offset:3px}
-.qz2-res.hi .qz2-band{background:var(--mark); color:var(--on-hi); display:inline-block;
-  padding:4px 12px; border-radius:999px}
-.qz2-q{margin:0 0 6px; font-size:19px; line-height:1.45; font-weight:700; text-wrap:balance}
-.qz2-opts{display:flex; flex-direction:column; gap:8px}
-.qz2-o{border:0; text-align:left; background:var(--card); color:var(--ink); border-radius:16px;
-  padding:13px 16px; font-weight:800; font-size:15px; cursor:pointer; transition:transform .12s ease, background .2s}
-.qz2-o:hover:not([disabled]){transform:translateX(3px)}
-.qz2-o.right{background:var(--mark); color:var(--on-hi)}
-.qz2-o.wrong{background:var(--red); color:var(--paper)}
-.qz2-o.dim{opacity:.4}
-.qz2-why{margin:16px 0 0; font-size:14.5px; line-height:1.5; color:var(--ink-2)}
-.qz2-why b{color:var(--ink)}
-.qz2-next{margin-top:16px; width:100%; border:0; border-radius:999px; background:var(--ink); color:var(--paper);
-  padding:13px; font-weight:800; font-size:15px; cursor:pointer}
-.qz2-score{margin:10px 0 2px; font-size:54px; font-weight:850; line-height:1}
-.qz2-score span{font-size:20px; font-weight:700; color:var(--ink-2)}
-.qz2-band{margin:0 0 16px; font-size:18px; font-weight:800}
-.qz2-ask{margin:0 0 14px; font-size:14.5px; line-height:1.5; color:var(--ink-2); max-width:30ch}
-.qz2-share{display:flex; gap:7px; flex-wrap:wrap}
-.qz2-b{border:0; background:var(--card); color:var(--ink); border-radius:999px; padding:10px 16px;
-  font-weight:800; font-size:14px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center}
-.qz2-b.dark{background:var(--ink); color:var(--paper)}
-.qz2-again{margin-top:14px; border:0; background:none; color:var(--ink-2); font-family:var(--mono);
-  font-size:12.5px; cursor:pointer; text-decoration:underline; text-underline-offset:3px; padding:2px}
-.qz{position:fixed; left:20px; bottom:20px; z-index:72; width:min(320px,calc(100vw - 40px));
+.qz{position:fixed; right:20px; bottom:20px; z-index:72; width:min(320px,calc(100vw - 40px));
   background:var(--paper); border-radius:22px; padding:18px 20px 16px;
   box-shadow:0 18px 40px rgba(43,38,32,.16), inset 0 0 0 2px var(--line);
   opacity:0; transform:translateY(16px) scale(.97); transition:opacity .3s ease, transform .4s cubic-bezier(.2,.8,.2,1)}
@@ -512,8 +451,9 @@ body.ovl .corner{opacity:0; pointer-events:none}
 .qz-s{margin:0 0 14px; font-size:14px; line-height:1.5; color:var(--ink-2)}
 .qz-s b{color:var(--ink); font-weight:800}
 .qz-r{display:flex; gap:8px; flex-wrap:wrap}
-.qz-r button{border:0; border-radius:999px; padding:9px 16px; font-weight:800; font-size:14px; cursor:pointer}
+.qz-r button,.qz-r a{display:inline-flex; align-items:center; text-decoration:none; border:0; border-radius:999px; padding:9px 16px; font-weight:800; font-size:14px; cursor:pointer}
 .qz-y{background:var(--ink); color:var(--paper)}
+.qz-x2{background:var(--card); color:var(--ink)}
 .qz-n{background:var(--card); color:var(--ink)}
 @media (max-width:760px){ .qz{left:12px; right:12px; bottom:84px; width:auto} }
 /* the verdict: thrown, not clicked */
@@ -610,7 +550,6 @@ body.dragging{-webkit-user-select:none; user-select:none}
   <div class="row">
     <button class="chip" id="tidy" hidden>Tidy up</button>
     <button class="chip ico" id="snd" aria-pressed="false" aria-label="Sound off" title="Sound off"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="spk" d="M4 9.5h3.4L12 5.4v13.2L7.4 14.5H4z"/><path class="wv" d="M15.4 9.4a4 4 0 0 1 0 5.2M18 7.2a7.4 7.4 0 0 1 0 9.6"/><path class="mu" d="M16 9.8l5 4.4M21 9.8l-5 4.4"/></svg></button>
-    <button class="chip" id="quizb">Quiz</button>
     <button class="chip" id="abt" aria-expanded="false" aria-controls="about">About</button>
   </div>
 </div>
@@ -3421,7 +3360,7 @@ function scTick(dt){
 function scBy(d){SC.y=clamp(SC.y+d,0,SC.max);SC.v=0}
 /* wheel and trackpad */
 addEventListener("wheel",e=>{
-  if(P.open||Q.on||!ab.hidden)return;
+  if(P.open||!ab.hidden)return;
   const up=e.deltaY<0;
   if((up&&atTop())||(!up&&atBottom())){
     const d=clamp(PULL.yT-e.deltaY*1.1,-340,340);
@@ -3431,7 +3370,7 @@ addEventListener("wheel",e=>{
 },{passive:false});
 /* keyboard, because taking over scrolling must not take it away */
 addEventListener("keydown",e=>{
-  if(P.open||Q.on||!ab.hidden)return;
+  if(P.open||!ab.hidden)return;
   const tag=(e.target.tagName||"").toLowerCase();
   if(tag==="input"||tag==="textarea")return;
   const page=innerHeight*.86;
@@ -3442,7 +3381,7 @@ addEventListener("keydown",e=>{
 /* touch: one finger scrolls or, at the ends, pulls. Two fingers belong to the pinch. */
 addEventListener("touchstart",e=>{
   if(e.touches.length===1)gOn=false;
-  if(e.touches.length!==1||P.open||Q.on||!ab.hidden){SC.drag=false;return}
+  if(e.touches.length!==1||P.open||!ab.hidden){SC.drag=false;return}
   SC.drag=true;SC.v=0;SC.pull=0;SC.acc=0;
   SC.ly=e.touches[0].clientY;SC.lt=performance.now();
 },{passive:true});
@@ -3471,7 +3410,7 @@ addEventListener("touchend",e=>{
 },{passive:true});
 
 /* ================= the miner: caught digging toward the words that are not made yet ================= */
-const MINE={v:null,mode:"dig",t:0,open:false};
+const MINE={v:null,mode:"busy",t:0,open:false,loot:0};
 const MINECAM=new THREE.Vector3(.1,.55,7.2);
 function buildPick(){
   const p=new THREE.Group();
@@ -3551,70 +3490,115 @@ function buildMine(){
     m.position.set((Math.random()-.5)*1.1,.1+Math.random()*.8,.26);m.userData.ph=i*.77;seam.add(m);return m});
   /* a light of their own, so the tunnel end is the brightest thing down here */
   const seamLight=new THREE.PointLight(0xFFB4DC,2.6,7,2);seamLight.position.set(.1,.5,.9);seam.add(seamLight);
-  /* the miner */
-  const m=new THREE.Group();m.position.set(3.1,0,.1);root.add(m);
-  const legs=[-1,1].map(s=>{const l=rbox(.17,.36,.2,.07,"#3C4A5A");l.position.set(s*.13,.18,0);m.add(l);return l});
-  const body=rbox(.48,.52,.34,.14,"#4A6E8A");body.position.y=.46;m.add(body);
-  const head=ball(.23,"#D9A777");head.scale.set(1,1.05,.92);head.position.y=.85;m.add(head);
-  const hat=new THREE.Group();hat.position.y=.97;m.add(hat);
-  const dome=ball(.25,"#D8A13E");dome.scale.set(1,.62,1);hat.add(dome);
-  const brim=cyl(.3,.3,.035,"#C08F32",20);brim.position.y=-.05;hat.add(brim);
-  const lampB=cyl(.07,.07,.06,"#9AA1A9",12,{roughness:.3,metalness:.6});lampB.rotation.x=Math.PI/2;
-  lampB.position.set(0,.01,.24);hat.add(lampB);
-  /* no light cone: flat clay cannot fake a soft beam, it just reads as a wedge.
-     The lamp lens catches the light instead, and the seam glows on its own. */
-  const lens=ball(.042,"#FFEFC0",{emissive:lin("#8A7030"),emissiveIntensity:.9,roughness:.2});
-  lens.scale.set(1,1,.5);lens.position.set(0,.01,.27);hat.add(lens);
-  const beam={material:{opacity:0}};
-  /* he gets a face, because he is the only living thing down here */
-  const EY=[-1,1].map(s=>{const e=ball(.042,"#2B2620");e.position.set(s*.085,.875,.2);m.add(e);return e});
-  const BR=[-1,1].map(s=>{const b=box(.1,.022,.022,"#2B2620",{bumpScale:0});b.position.set(s*.085,.925,.205);m.add(b);return b});
-  const mouth=box(.1,.024,.02,"#2B2620",{bumpScale:0});mouth.position.set(0,.79,.21);m.add(mouth);
-  const arm=new THREE.Group();arm.position.set(.21,.62,.12);m.add(arm);
-  const upper=rbox(.14,.3,.14,.06,"#4A6E8A");upper.position.y=-.13;arm.add(upper);
-  const pick=buildPick();pick.position.y=-.3;arm.add(pick);
-  const arm2=rbox(.14,.3,.14,.06,"#4A6E8A");arm2.position.set(-.27,.49,.1);m.add(arm2);
-  /* the pick he leaves behind */
-  const left=buildPick();left.position.set(4.0,.4,.1);left.rotation.z=-.55;left.visible=false;root.add(left);
+  /* ---- the goblins ---- */
+  /* Nobody sensible is down here. Goblins are, and they would rather you had not looked. */
+  const GOB_SKIN=["#7E9B4C","#6E8C42","#8AA557","#67853C"];
+  const SHTEX=ctex(64,64,(c,W,H)=>{const g=c.createRadialGradient(32,32,0,32,32,32);
+    g.addColorStop(0,"rgba(20,16,12,.5)");g.addColorStop(1,"rgba(20,16,12,0)");c.fillStyle=g;c.fillRect(0,0,W,H)});
+  function mkGoblin(i){
+    const G=new THREE.Group(),skin=GOB_SKIN[i%GOB_SKIN.length];
+    const sh=new THREE.Mesh(new THREE.PlaneGeometry(.5,.3),
+      new THREE.MeshBasicMaterial({map:SHTEX,transparent:true,depthWrite:false,opacity:.75}));
+    sh.rotation.x=-Math.PI/2;sh.position.y=.005;G.add(sh);
+    const legs=[-1,1].map(sg=>{const l=rbox(.09,.17,.11,.04,skin);l.position.set(sg*.07,.085,0);G.add(l);return l});
+    const body=rbox(.26,.25,.2,.09,skin);body.position.y=.29;G.add(body);
+    const rag=box(.28,.1,.22,"#6B513A");rag.position.y=.2;G.add(rag);
+    const head=ball(.165,skin);head.scale.set(1,.95,.92);head.position.y=.53;G.add(head);
+    /* the ears are the whole point */
+    const ears=[-1,1].map(sg=>{const e=cyl(.004,.075,.3,skin,8);e.position.set(sg*.15,.6,-.01);
+      e.rotation.z=sg*-.95;e.rotation.x=-.25;G.add(e);return e});
+    const nose=cyl(.004,.045,.13,skin,8);nose.rotation.x=Math.PI/2;nose.position.set(0,.52,.16);G.add(nose);
+    const eyes=[-1,1].map(sg=>{const e=ball(.045,"#FFD56B",{emissive:lin("#6B4A00"),emissiveIntensity:.55,roughness:.25});
+      e.position.set(sg*.07,.57,.13);G.add(e);
+      const p=ball(.019,"#1C1813");p.position.set(sg*.075,.57,.165);G.add(p);return e});
+    const mouth=box(.09,.022,.02,"#2B2018",{bumpScale:0});mouth.position.set(0,.465,.15);G.add(mouth);
+    const arms=[-1,1].map(sg=>{const a2=rbox(.07,.19,.08,.03,skin);a2.position.set(sg*.17,.31,.02);G.add(a2);return a2});
+    G.userData={legs,ears,eyes,arms,head,mouth,sh};
+    return G;
+  }
+  const GOBS=[...Array(11)].map((_,i)=>{
+    const G=mkGoblin(i);
+    const x=-1.1+i*.52+((i*5)%3)*.16, z=-.5+((i*7)%5)*.3;
+    G.userData.home=[x,z];
+    G.userData.sp=2.6+((i*13)%7)*.28;
+    G.userData.ph=i*1.21;
+    G.userData.sc=.98+((i*5)%4)*.13;
+    G.scale.setScalar(G.userData.sc);
+    G.position.set(x,0,z);
+    root.add(G);return G;
+  });
+  /* gold: some was always here, and more arrives every time they are startled */
+  const GOLDM=new THREE.MeshStandardMaterial({color:lin("#E9B53C"),emissive:lin("#4A3200"),emissiveIntensity:.35,roughness:.28,metalness:.7});
+  function mkCoin(){return new THREE.Mesh(new THREE.CylinderGeometry(.075,.075,.018,14),GOLDM)}
+  const COINS=[];
+  function putCoin(x,y,z,tilt){const c=mkCoin();c.position.set(x,y,z);c.rotation.set(tilt||0,Math.random()*3,tilt?.4:0);root.add(c);COINS.push(c);return c}
+  [[-.6,.008,.42,0],[-.52,.008,.5,0],[2.4,.008,-.2,0],[2.55,.02,-.26,.5],[1.1,.008,.6,0],[3.2,.008,.3,0]].forEach(a2=>putCoin(...a2));
+  /* a small hoard where the seam is richest */
+  for(let i=0;i<7;i++)putCoin(.05+(Math.random()-.5)*.3,.008+i*.013,-.1+(Math.random()-.5)*.3,0);
+  const left=new THREE.Group();root.add(left);
   const sh=new THREE.Group();root.add(sh);
-  return {scene,cam,root,m,arm,hat,EY,BR,mouth,legs,CR,left,sh,beam,SPK,glow,seamLight};
+  const m=new THREE.Group();root.add(m);          /* kept so the old guards stay harmless */
+  const beam={material:{opacity:0}};
+  return {scene,cam,root,GOBS,COINS,putCoin,left,sh,m,CR,beam,SPK,glow,seamLight};
 }
 function mineOpen(){
   if(!MINE.v)MINE.v=buildMine();
   const V=MINE.v;MINE.t=0;
-  MINE.mode=PULL.bot>=1?"gone":"dig";
+  /* pull all the way and they are long gone; a normal peek catches them at work */
+  MINE.mode=PULL.bot>=1?"gone":"busy";
   const gone=MINE.mode==="gone";
-  V.m.visible=!gone;V.sh.visible=!gone;V.left.visible=gone;
-  V.m.position.set(3.1,0,.1);V.m.rotation.y=1.45;
-  V.BR.forEach(b=>{b.position.y=.925;b.rotation.z=0});
-  V.mouth.scale.x=1;V.legs.forEach(l=>l.rotation.x=0);
+  V.GOBS.forEach((G,i)=>{
+    const u=G.userData;
+    G.visible=!gone;
+    G.position.set(u.home[0],0,u.home[1]);
+    G.rotation.set(0,(i%2?1:-1)*(.6+(i%3)*.3),0);
+    G.scale.setScalar(u.sc);
+    u.dropped=false;
+    u.dropAt=.25+((i*17)%9)*.09;
+    u.run=-1;                          /* out into the dark, away from the lit seam */
+    u.ears.forEach(e=>e.rotation.x=-.25);
+    u.eyes.forEach(e=>e.scale.setScalar(1));
+  });
 }
 function mineTick(time,dt,rect,VP){
   if(!MINE.v)return;
   const V=MINE.v,r=reduce?0:1;MINE.t+=dt;const t=MINE.t;
-  V.beam.material.opacity=.11*clamp(Math.abs(V.m.rotation.y)/1.1,0,1);
-  if(MINE.mode==="dig"){
-    const sw=Math.sin(t*6.6);
-    V.arm.rotation.x=-.45+sw*.9;
-    V.m.position.y=Math.abs(sw)*.012*r;
-    if(sw>.985)crunch();
-    if(t>1.5){MINE.mode="turn";MINE.t=0}
-  }else if(MINE.mode==="turn"){
-    /* he stops, and looks straight at you */
-    const u=ss(0,.5,t);
-    V.m.rotation.y=1.45*(1-u);
-    V.arm.rotation.x=lerp(-.45,-.08,u);
-    V.BR.forEach((b,i)=>{b.position.y=.925+u*.035;b.rotation.z=(i?-1:1)*u*.34});
-    V.mouth.scale.x=1-u*.4;
-    if(t>1.7){MINE.mode="leave";MINE.t=0;bloop(260,150,.2,.1)}
-  }else if(MINE.mode==="leave"){
-    const u=Math.min(1,t/1.7);
-    V.m.rotation.y=lerp(0,-1.5,ss(0,.35,t));
-    V.m.position.x=3.1-u*8.5;
-    V.m.position.y=Math.abs(Math.sin(t*6))*.03*r;
-    V.legs.forEach((l,i)=>l.rotation.x=Math.sin(t*6+i*Math.PI)*.52*r);
-    V.sh.position.x=V.m.position.x;
-    if(u>=1){V.m.visible=false;V.sh.visible=false}
+  if(MINE.mode==="busy"){
+    /* heads down, picking at the rock, no idea anyone is watching */
+    V.GOBS.forEach((G,i)=>{const u=G.userData,w=Math.sin(time*5.2+u.ph);
+      G.position.y=Math.abs(w)*.03*r;
+      u.arms.forEach((a2,k)=>a2.rotation.x=(k?w:-w)*.7*r);
+      u.legs.forEach(l=>l.rotation.x=0);
+      G.rotation.y+=Math.sin(time*.7+u.ph)*dt*.5*r;
+    });
+    if(t>.55){MINE.mode="spot";MINE.t=0;if(soundOn)bloop(880,1500,.07,.05)}
+  }else if(MINE.mode==="spot"){
+    /* every one of them stops and looks straight out at you */
+    const u2=ss(0,.42,t);
+    V.GOBS.forEach(G=>{const u=G.userData;
+      G.rotation.y=lerp(G.rotation.y,0,Math.min(1,dt*9));
+      G.position.y=0;
+      u.arms.forEach(a2=>a2.rotation.x=lerp(a2.rotation.x,-.25,Math.min(1,dt*9)));
+      u.ears.forEach(e=>e.rotation.x=-.25-u2*.5);            /* ears up */
+      u.eyes.forEach(e=>e.scale.setScalar(1+u2*.5));         /* eyes wide */
+    });
+    if(t>.75){MINE.mode="flee";MINE.t=0;if(soundOn){bloop(300,170,.16,.09);setTimeout(()=>crunch(),90)}}
+  }else if(MINE.mode==="flee"){
+    V.GOBS.forEach((G,i)=>{const u=G.userData;
+      if(!G.visible)return;
+      const sp=u.sp*(1+i%3*.1);
+      G.position.x+=u.run*sp*dt;
+      G.rotation.y=u.run<0?-1.57:1.57;
+      G.position.y=Math.abs(Math.sin(time*13+u.ph))*.055*r;
+      u.legs.forEach((l,k)=>l.rotation.x=Math.sin(time*13+u.ph+k*Math.PI)*.8*r);
+      u.arms.forEach((a2,k)=>a2.rotation.x=Math.sin(time*13+u.ph+k*Math.PI)*.9*r);
+      /* each one sheds a coin as it bolts, and the coin stays */
+      if(!u.dropped&&t>u.dropAt){u.dropped=true;
+        V.putCoin(G.position.x,.008,G.position.z+.06,0);
+        MINE.loot++;
+      }
+      if(G.position.x<-3.4)G.visible=false;
+    });
   }
   V.CR.forEach((c,i)=>{c.rotation.y+=dt*(.22+i*.035)*r;
     const f=Math.sin(time*2.6+c.userData.ph),g2=Math.sin(time*7.3+c.userData.ph*2.1);
@@ -3622,6 +3606,7 @@ function mineTick(time,dt,rect,VP){
   V.SPK.forEach((m,i)=>{const u=(time*.9+m.userData.ph)%2.6;
     const a=u<.5?Math.sin(u/.5*Math.PI):0;
     m.material.opacity=a*.95*r;m.scale.setScalar(.5+a*.9);m.rotation.z=u*2});
+  V.COINS.forEach((c,i)=>{c.material.emissiveIntensity=.3+Math.sin(time*3.1+i)*.18*r});
   V.glow.material.opacity=(.72+Math.sin(time*1.7)*.16*r);
   V.seamLight.intensity=2.4+Math.sin(time*2.1)*.7*r;
   const c=inter(rect,VP);if(!c||rect.height<24)return;
@@ -3634,275 +3619,44 @@ function mineTick(time,dt,rect,VP){
   R.clearDepth();R.render(V.scene,V.cam);
 }
 
-/* ================= the quiz invitation ================= */
-/* No quiz yet. This is the ask, and it only fires for someone who has actually stayed. */
+/* ================= stay a while, say hello ================= */
+/* Five minutes in, the site asks for an introduction. Not a test, and not a newsletter. */
+const LINKEDIN="https://www.linkedin.com/in/shawonn";
+const X_AT="";                       /* set to a handle, e.g. "showkot", to offer X too */
 const QZ={t:0,shown:false,el:null};
-const QZ_AFTER=300; /* five minutes of being here, not five minutes of being idle */
-function quizSnoozed(){try{return Date.now()<+(localStorage.getItem("ddyk-quiz-snooze")||0)}catch(e){return false}}
-function quizSnooze(days){try{localStorage.setItem("ddyk-quiz-snooze",Date.now()+days*864e5)}catch(e){}}
-function quizCard(){
-  const n=met().filter(id=>TERMS.some(t=>t.id===id)).length;
+const QZ_AFTER=300;                  /* five minutes of being here, not five minutes of being idle */
+function helloSnoozed(){try{return Date.now()<+(localStorage.getItem("ddyk-hello-snooze")||0)}catch(e){return false}}
+function helloSnooze(days){try{localStorage.setItem("ddyk-hello-snooze",Date.now()+days*864e5)}catch(e){}}
+function helloCard(){
+  const n=met().filter(id=>TERMS.some(t=>t.id===id)).length,j=judgedCount(),k=knewCount();
+  const line=j>=3
+    ? `You have opened <b>${n}</b> of the ${TERMS.length}, and <b>${j-k}</b> of them were news to you.`
+    : (n?`You have opened <b>${n}</b> of the ${TERMS.length}.`:`You have not opened a single one.`);
   const d=document.createElement("div");d.className="qz";d.setAttribute("role","dialog");
-  d.innerHTML=`<p class="qz-l">You have been here a while.</p>
-    <p class="qz-s">${n?`And you have opened <b>${n}</b> of the ${TERMS.length}.`:`You have not opened a single one.`}
-    ${n>=6?"You are starting to look like someone who would do well at a quiz.":"Still. Fancy a quiz?"}</p>
-    <div class="qz-r"><button class="qz-y">Go on then</button><button class="qz-n">Not now</button></div>`;
+  d.innerHTML=`<p class="qz-l">Still here.</p>
+    <p class="qz-s">${line} If any of it was new, come and say so — I read every one.</p>
+    <div class="qz-r">
+      <a class="qz-y" href="${LINKEDIN}" target="_blank" rel="noopener">Say hello on LinkedIn ↗</a>
+      ${X_AT?`<a class="qz-x2" href="https://x.com/${X_AT}" target="_blank" rel="noopener">On X ↗</a>`:""}
+      <button class="qz-n">Not now</button>
+    </div>`;
   document.body.appendChild(d);QZ.el=d;
   requestAnimationFrame(()=>d.classList.add("on"));
-  const close=snooze=>{d.classList.remove("on");quizSnooze(snooze);
+  const close=snooze=>{d.classList.remove("on");helloSnooze(snooze);
     setTimeout(()=>{d.remove();if(QZ.el===d)QZ.el=null},360)};
   d.querySelector(".qz-n").onclick=()=>{close(1);bloop(300,180,.07,.08)};
-  d.querySelector(".qz-y").onclick=()=>{bloop(620,1100,.1,.12);close(7);openQuiz()};
+  d.querySelectorAll("a").forEach(a=>a.onclick=()=>{bloop(620,1100,.1,.12);close(30);slugCarry&&slugCarry()});
 }
-function quizTick(dt){
+function helloTick(dt){
   if(QZ.shown||document.hidden)return;
   QZ.t+=dt;
   if(QZ.t<QZ_AFTER)return;
   /* wait for a quiet moment: never over a story, a pinch or a pull */
   if(P.open||Z.k>.01||D.carry||Math.abs(PULL.y)>1)return;
   QZ.shown=true;
-  if(quizSnoozed())return;
-  quizCard();
+  if(helloSnoozed())return;
+  helloCard();
 }
-
-/* ================= the quiz ================= */
-/* Set this once the site is on its own domain; until then it shares whatever URL it is served from. */
-const SHARE_SITE="https://ishowkot.github.io/ddyk/";
-const shareURL=()=>SHARE_SITE||(location.origin+location.pathname);
-const CLUE={
- spline:"A thin strip of wood laid on a ship loft floor, pinned at a few points and weighted down by lead blocks called ducks.",
- cursor:"Latin for runner. On a slide rule it is the panel of clear glass that slides along with one hairline engraved down it.",
- scroll:"A long sheet of parchment wound onto two rods, read by unrolling one end while rolling up the other.",
- palette:"A flat board a painter holds, with a hole for the thumb and the colours squeezed around the rim.",
- breadcrumb:"A trail dropped through a forest by two children, and eaten by birds before they could follow it home.",
- slug:"A newsroom nickname for a story — and in hot metal, a whole line of type cast as one bar.",
- accordion:"A Viennese instrument of 1829 whose bellows fold flat and stretch open.",
- hamburger:"Three stacked lines, drawn for the Xerox Star in 1981 to look like a list.",
- kebab:"Three dots in a row, like something on a skewer.",
- toast:"It pops up, does its job, and drops back out of sight.",
- carousel:"A 17th-century cavalry display where riders circled an arena.",
- cookie:"A small token passed between programs, borrowed by Netscape in 1994 so sites could remember you.",
- "lorem-ipsum":"A line of Cicero, chopped mid-word, meaning “pain itself”.",
- leading:"Thin strips of metal slid between lines of type to space them out.",
- gutter:"In bookbinding, the inner margin where the pages meet the spine.",
- "above-the-fold":"The top half of a broadsheet — the only part you could see on the newsstand.",
- button:"From a word meaning a bud, from a word meaning to push.",
- toggle:"A short bar pushed through a loop to fasten it. The snap came later, from an 1884 switch.",
- "radio-button":"Mechanical presets in a car radio: push one in and it popped all the others out.",
- kerning:"The part of a letter that hangs off the edge of its own metal body.",
- "case":"Two wooden trays on a slanted rack. The one you reached for less often sat higher.",
- boilerplate:"Ready-to-print columns mailed to papers as solid metal plates, named after the sheets used to build steam boilers.",
- "cut-paste":"Scissors and a pot of rubber cement, on a board that went to the printer.",
- "dodge-burn":"Two moves made with your hands under a darkroom enlarger.",
- dashboard:"A board at the front of a carriage that stopped mud thrown up by the hooves.",
- bug:"A moth taped into a logbook in 1947 — though the word was already in use in 1878.",
- spam:"A tinned meat, and a 1970 sketch in which the word drowns out all conversation.",
- bluetooth:"A 10th-century Danish king who united the tribes. His initials became the mark.",
- brand:"An iron heated in coals and pressed into a hide, to burn in a mark of ownership.",
- logo:"One piece of metal type carrying a whole word, cast as a single sort.",
- grotesk:"The buried rooms of Nero\u2019s palace, and the strange ornament painted on their walls.",
- miniature:"Minium \u2014 the red lead pigment used for the initials in an illuminated manuscript.",
- portfolio:"A flat case of loose leaves, carried to whoever might hire you.",
- cliche:"The sound a matrix made striking molten metal to cast a solid printing plate.",
- login:"A weighted lump of wood on a knotted rope, thrown over the stern to measure speed.",
- shift:"The key that physically lifted the whole typebar basket, so the other half of each slug struck the page."
-};
-const QN=7;
-const Q={on:false,qs:[],i:0,score:0,picked:null,el:null,view:null,streak:0,fx:null,cons:'',go:null};
-const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-function buildQuiz(){
-  const pool=TERMS.filter(t=>CLUE[t.id]);
-  const picks=shuffle(pool.slice()).slice(0,Math.min(QN,pool.length));
-  Q.qs=picks.map(t=>{
-    const others=shuffle(pool.filter(x=>x.id!==t.id)).slice(0,3).map(x=>x.name);
-    return{id:t.id,name:t.name,clue:CLUE[t.id],opts:shuffle([t.name,...others]),miss:false}});
-  Q.i=0;Q.score=0;Q.picked=null;Q.streak=0;Q.fx=null;
-}
-function quizBand(s){
-  const p=s/Q.qs.length;
-  return p===1?"You already knew all of this.":p>=.8?"You have been paying attention."
-    :p>=.55?"Better than most designers.":p>=.3?"There is more down there.":"Plenty left to find.";
-}
-const STREAK=["","","Two.","Three in a row.","Four. Showing off.","Five straight.","Six. Alright.","Seven. Nobody does that."];
-const CONSOLE_=["Close. That one catches everybody.","No — but that is a good wrong answer.",
-  "Not that one. Worth opening it after this.","Nearly. The real one is odder."];
-const CONF=["#A6F06B","#F1DA8A","#C4553E","#7DA2BC","#E6A6C6","#8FAE91"];
-function burst(x,y,n,spread){
-  if(reduce)return;
-  for(let i=0;i<n;i++){
-    const d=document.createElement("i");d.className="conf";
-    d.style.background=CONF[i%CONF.length];
-    d.style.left=x+"px";d.style.top=y+"px";
-    if(i%3===0)d.style.borderRadius="50%";
-    document.body.appendChild(d);
-    const a=(Math.random()-.5)*spread, up=-(120+Math.random()*220), dx=a, dur=900+Math.random()*700;
-    d.animate([{transform:"translate(0,0) rotate(0deg)",opacity:1},
-               {transform:`translate(${dx*.6}px,${up*.75}px) rotate(${Math.random()*360}deg)`,opacity:1,offset:.42},
-               {transform:`translate(${dx}px,${260+Math.random()*160}px) rotate(${Math.random()*720}deg)`,opacity:0}],
-      {duration:dur,easing:"cubic-bezier(.2,.7,.4,1)"}).onfinish=()=>d.remove();
-  }
-}
-function quizShareText(){
-  const t=shuffle(Q.qs.map(q=>q.name.toLowerCase())).slice(0,3).join(", ");
-  const kn=judgedCount()>=5?` Of the ${TERMS.length} words here, I only actually knew ${knewCount()}.`:"";
-  return `My DDYK score is ${Q.score}/${Q.qs.length}.${kn}\n\nDesigner — do you actually know where our words came from? ${t[0].toUpperCase()+t.slice(1)}.\n\nGuess your score out loud before you start, then find out:\n${shareURL()}`;
-}
-function best(s,n){let b=0;try{b=+(localStorage.getItem("ddyk-quiz-best")||0)}catch(e){}
-  return b>s?` Your best so far is <b>${b}/${n}</b>.`:(s>0&&s>=b?" That is your best yet.":"")}
-function qDispose(){if(Q.view){dispose(Q.view);Q.view=null}}
-function qMount(){
-  const st=Q.el&&Q.el.querySelector(".qz2-stage");if(!st)return;
-  qDispose();
-  const q=Q.qs[Q.i];if(!q)return;
-  Q.view=makeView(q.id,st);
-  if(Q.view.obj.setFull)Q.view.obj.setFull(true);
-  Q.fx=null;
-}
-function renderQuiz(){
-  const el=Q.el;if(!el)return;
-  if(Q.i>=Q.qs.length)return renderResult();
-  const q=Q.qs[Q.i],done=Q.picked!==null;
-  el.innerHTML=`<button class="x qz2-x" aria-label="Close">×</button>
-    <p class="qz2-step">${Q.i+1} of ${Q.qs.length}${Q.streak>1?` · <b>${Q.streak} in a row</b>`:""}</p>
-    <span class="qz2-bar"><i style="width:${Math.round(Q.i/Q.qs.length*100)}%"></i></span>
-    <div class="qz2-stage"></div>
-    <p class="qz2-q">${q.clue}</p>
-    <p class="qz2-ask2">Which word came from it?</p>
-    <div class="qz2-opts">${q.opts.map(o=>{
-      let c="qz2-o";
-      if(done){if(o===q.name)c+=" right";else if(o===Q.picked)c+=" wrong";else c+=" dim"}
-      return `<button class="${c}" data-o="${o.replace(/"/g,"&quot;")}"${done?" disabled":""}>${o}</button>`}).join("")}</div>
-    ${done?`<p class="qz2-why ${Q.picked===q.name?"good":"bad"}">${
-        Q.picked===q.name
-          ? `<b>${Q.streak>1?STREAK[Math.min(Q.streak,7)]:"Yes."}</b> ${TERMS.find(t=>t.id===q.id).ui.replace(/<[^>]+>/g,"")}`
-          : `<b>It was ${q.name}.</b> ${Q.cons} ${TERMS.find(t=>t.id===q.id).ui.replace(/<[^>]+>/g,"")}`}</p>
-      <button class="qz2-next" id="qz2-next">${Q.i+1>=Q.qs.length?"See your score":"Next"}</button>`:""}`;
-  el.querySelector(".qz2-x").onclick=closeQuiz;
-  qMount();
-  if(!done){el.querySelectorAll(".qz2-o").forEach(b=>b.onclick=e=>{
-    Q.picked=b.dataset.o;
-    const r=b.getBoundingClientRect();
-    if(Q.picked===q.name){
-      Q.score++;Q.streak++;
-      Q.fx={t:nowS(),kind:1};
-      bloop(620,1240,.09,.13);setTimeout(()=>bloop(880,1660,.08,.1),90);
-      burst(r.left+r.width/2,r.top+r.height/2,Math.min(10+Q.streak*6,34),120+Q.streak*40);
-      if(Q.view)Q.view.obj.react(nowS());
-    }else{
-      q.miss=true;Q.streak=0;Q.cons=CONSOLE_[Math.floor(Math.random()*CONSOLE_.length)];
-      Q.fx={t:nowS(),kind:-1};
-      bloop(260,150,.16,.1);
-    }
-    renderQuiz()})}
-  else{
-    const go=()=>{Q.i++;Q.picked=null;renderQuiz()};
-    el.querySelector("#qz2-next").onclick=go;
-    el.querySelector(".qz2-why").onclick=go;
-    Q.go=go;
-    el.querySelector("#qz2-next").focus({preventScroll:true});
-  }
-}
-const RANKS=["Plenty left to find","A few landed","Getting there","Better than most","Properly read","Type nerd"];
-function RANK(s,n){const p=s/n;return RANKS[Math.min(5,Math.max(0,Math.round(p*5)))]}
-function countTo(el,to,ms){if(!el)return;if(reduce){el.textContent=to;return}
-  const t0=performance.now();const step=()=>{const u=Math.min(1,(performance.now()-t0)/ms);
-    el.textContent=Math.round(easeOut(u)*to);if(u<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
-function renderResult(){
-  const el=Q.el,s=Q.score,n=Q.qs.length,p=s/n,hi=p>=.7;
-  qDispose();
-  const missed=Q.qs.filter(q=>q.miss).map(q=>q.name);
-  el.innerHTML=`<button class="x qz2-x" aria-label="Close">×</button>
-    <div class="qz2-res ${hi?"hi":"lo"}">
-      <p class="qz2-step">your DDYK score</p>
-      ${hi?`<span class="qz2-seal" aria-hidden="true"><i>${RANK(s,n)}</i></span>`:""}
-      <p class="qz2-score"><b id="qz2-num">0</b> <span>of ${n}</span></p>
-      <span class="qz2-ring" aria-hidden="true"><i style="--p:${Math.round(p*100)}"></i></span>
-      <p class="qz2-band">${quizBand(s)}</p>
-      ${hi
-        ? `<p class="qz2-ask">Now go and find a designer who thinks they would beat it. Make them
-             <b>say their number out loud</b> before they start — that is the whole game.${best(s,n)}</p>`
-        : `<p class="qz2-ask">These are not obvious, that is the point of the site. Open a few cards and
-             come back — the words stick once you have seen the thing they came from.${best(s,n)}</p>`}
-      ${judgedCount()>=5?`<p class="q-knew">You have owned up on ${judgedCount()} cards so far: <b>${knewCount()}</b> you already knew, <b>${judgedCount()-knewCount()}</b> were news.</p>`:""}
-      ${missed.length?`<p class="qz2-missed">Got away: <b>${missed.join("</b>, <b>")}</b></p>`:""}
-      <div class="qz2-share">
-        <button class="qz2-b dark" id="qz2-share">${hi?"Challenge someone":"Share it anyway"}</button>
-        <a class="qz2-b" id="qz2-x2" target="_blank" rel="noopener">X</a>
-        <a class="qz2-b" id="qz2-li" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="qz2-b" id="qz2-wa" target="_blank" rel="noopener">WhatsApp</a>
-      </div>
-      <button class="qz2-again" id="qz2-again">${hi?"Again, different words":"Try again — seven new ones"}</button>
-    </div>`;
-  const txt=quizShareText(),u=encodeURIComponent(shareURL()),t=encodeURIComponent(txt);
-  el.querySelector("#qz2-x2").href="https://twitter.com/intent/tweet?text="+t;
-  el.querySelector("#qz2-li").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
-  el.querySelector("#qz2-wa").href="https://wa.me/?text="+t;
-  const sb=el.querySelector("#qz2-share");
-  sb.onclick=()=>{
-    if(navigator.share){navigator.share({title:"DDYK",text:txt}).catch(()=>{});return}
-    const d=()=>{sb.textContent="copied — go and paste it";setTimeout(()=>sb.textContent=hi?"Challenge someone":"Share it anyway",2600)};
-    try{navigator.clipboard.writeText(txt).then(d,d)}catch(e){d()}
-  };
-  el.querySelector("#qz2-again").onclick=()=>{buildQuiz();renderQuiz()};
-  el.querySelector(".qz2-x").onclick=closeQuiz;
-  try{const b=+(localStorage.getItem("ddyk-quiz-best")||0);if(s>b)localStorage.setItem("ddyk-quiz-best",s)}catch(e){}
-  countTo(el.querySelector("#qz2-num"),s,760);
-  if(hi){
-    bloop(520,1100,.2,.14);
-    const r=el.getBoundingClientRect();
-    [0,160,340].forEach((d,i)=>setTimeout(()=>burst(r.left+r.width*(.2+i*.3),r.top+120,26,380),d));
-  }else bloop(300,220,.2,.1);
-}
-/* the object on the quiz stage, drawn by the same canvas as everything else */
-function quizDraw(time,dt,VP){
-  const v=Q.view;if(!v)return;
-  const st=Q.el&&Q.el.querySelector(".qz2-stage");if(!st)return;
-  const r=st.getBoundingClientRect();if(r.width<8)return;
-  v.k=1.45;
-  const f=Q.fx;
-  if(f){
-    const a=time-f.t;
-    if(f.kind===1){
-      v.holder.position.y=Math.abs(Math.sin(Math.min(a,.9)*7))*(1-Math.min(a,.9)/.9)*.5;
-      v.holder.rotation.y=Math.min(a,.7)/.7*Math.PI*2;
-      const sq=1+Math.sin(Math.min(a,.5)/.5*Math.PI)*.12;
-      v.holder.scale.set(1/Math.sqrt(sq),sq,1/Math.sqrt(sq));
-    }else{
-      const u=Math.min(1,a/.5);
-      v.holder.position.y=-u*.16;v.holder.rotation.z=u*.14;
-      const sq=1-u*.1;v.holder.scale.set(1/Math.sqrt(sq),sq,1/Math.sqrt(sq));
-    }
-  }
-  v.obj.tick(time);
-  draw(v,r,inter(r,VP)||r);
-}
-
-function openQuiz(){
-  if(Q.on)return;Q.on=true;
-  if(QZ.el){QZ.el.classList.remove("on");setTimeout(()=>{QZ.el&&QZ.el.remove();QZ.el=null},300)}
-  if(!ab.hidden)closeAbout();
-  buildQuiz();
-  const sc=document.createElement("div");sc.className="qz2-scrim";document.body.appendChild(sc);
-  const el=document.createElement("div");el.className="qz2";el.setAttribute("role","dialog");
-  el.setAttribute("aria-modal","true");el.setAttribute("aria-label","DDYK quiz");
-  document.body.appendChild(el);Q.el=el;Q.scrim=sc;
-  sc.onclick=closeQuiz;
-  renderQuiz();
-  requestAnimationFrame(()=>{sc.classList.add("on");el.classList.add("on")});
-  document.body.classList.add("locked");
-}
-function closeQuiz(){
-  if(!Q.on)return;Q.on=false;qDispose();
-  const el=Q.el,sc=Q.scrim;Q.el=null;
-  if(el)el.classList.remove("on");if(sc)sc.classList.remove("on");
-  document.body.classList.remove("locked");
-  setTimeout(()=>{if(el)el.remove();if(sc)sc.remove()},320);
-}
-addEventListener("keydown",e=>{
-  if(!Q.on)return;
-  if(e.key==="Escape"){e.preventDefault();closeQuiz();return}
-  if((e.key==="Enter"||e.key===" ")&&Q.picked!==null&&Q.go){e.preventDefault();Q.go()}
-});
 
 /* ================= the crush: pinch in and everything tears loose ================= */
 const crushEl=$("#crush");
@@ -4174,7 +3928,6 @@ function drawGrid(time,dt,now,H,VP){
 }
 
 /* ================= corner ================= */
-$("#quizb").onclick=()=>openQuiz();
 $("#snd").onclick=e=>{soundOn=!soundOn;if(!soundOn)ACC.silence(true);if(soundOn)ensureAC();const b=e.currentTarget;b.setAttribute("aria-pressed",soundOn);const l=soundOn?"Sound on":"Sound off";b.setAttribute("aria-label",l);b.title=l;if(soundOn)bloop(500,900,.1,.12)};
 const ab=$("#about"),abScrim=$("#ab-scrim"),abLogo=ab.querySelector(".lg");let abY=null;
 const met=()=>{try{return JSON.parse(localStorage.getItem("ddyk-met")||"[]")}catch(e){return[]}};
@@ -4592,11 +4345,10 @@ function frame(now){
   if(FLAT)return;
   if(!FLAT)requestAnimationFrame(frame);
   const time=now/1000,dt=Math.min(.05,(now-lastT)/1000);lastT=now;
-  scTick(dt);pullTick(now,dt);quizTick(dt);sprTick(now,dt);
-  const ovl=P.open||Q.on; if(ovl!==wasOvl){wasOvl=ovl;document.body.classList.toggle("ovl",ovl)}
+  scTick(dt);pullTick(now,dt);helloTick(dt);sprTick(now,dt);
+  const ovl=P.open||(PULL.side<0&&PULL.y<-40); if(ovl!==wasOvl){wasOvl=ovl;document.body.classList.toggle("ovl",ovl)}
   const W=canvas.clientWidth,H=canvas.clientHeight,VP={left:0,top:0,right:W,bottom:H};
   LOOK.flight=null;
-  if(Q.on){R.setScissor(0,0,W,H);R.clear(true,true,true);quizDraw(time,dt,VP);return}
   if(ACC.on&&(now-ACC.last>160||!soundOn))ACC.silence(!soundOn);
   R.setScissor(0,0,W,H);R.clear(true,true,true);
   if(!P.open){
