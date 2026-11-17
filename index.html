@@ -3497,32 +3497,34 @@ function buildMine(){
     g.addColorStop(0,"rgba(20,16,12,.5)");g.addColorStop(1,"rgba(20,16,12,0)");c.fillStyle=g;c.fillRect(0,0,W,H)});
   function mkGoblin(i){
     const G=new THREE.Group(),skin=GOB_SKIN[i%GOB_SKIN.length];
-    const sh=new THREE.Mesh(new THREE.PlaneGeometry(.5,.3),
+    const sh=new THREE.Mesh(new THREE.PlaneGeometry(.42,.26),
       new THREE.MeshBasicMaterial({map:SHTEX,transparent:true,depthWrite:false,opacity:.75}));
     sh.rotation.x=-Math.PI/2;sh.position.y=.005;G.add(sh);
-    const legs=[-1,1].map(sg=>{const l=rbox(.09,.17,.11,.04,skin);l.position.set(sg*.07,.085,0);G.add(l);return l});
-    const body=rbox(.26,.25,.2,.09,skin);body.position.y=.29;G.add(body);
-    const rag=box(.28,.1,.22,"#6B513A");rag.position.y=.2;G.add(rag);
-    const head=ball(.165,skin);head.scale.set(1,.95,.92);head.position.y=.53;G.add(head);
-    /* the ears are the whole point */
-    const ears=[-1,1].map(sg=>{const e=cyl(.004,.075,.3,skin,8);e.position.set(sg*.15,.6,-.01);
-      e.rotation.z=sg*-.95;e.rotation.x=-.25;G.add(e);return e});
-    const nose=cyl(.004,.045,.13,skin,8);nose.rotation.x=Math.PI/2;nose.position.set(0,.52,.16);G.add(nose);
-    const eyes=[-1,1].map(sg=>{const e=ball(.045,"#FFD56B",{emissive:lin("#6B4A00"),emissiveIntensity:.55,roughness:.25});
-      e.position.set(sg*.07,.57,.13);G.add(e);
-      const p=ball(.019,"#1C1813");p.position.set(sg*.075,.57,.165);G.add(p);return e});
-    const mouth=box(.09,.022,.02,"#2B2018",{bumpScale:0});mouth.position.set(0,.465,.15);G.add(mouth);
-    const arms=[-1,1].map(sg=>{const a2=rbox(.07,.19,.08,.03,skin);a2.position.set(sg*.17,.31,.02);G.add(a2);return a2});
+    /* little and top heavy: nearly all head, almost no legs */
+    const legs=[-1,1].map(sg=>{const l=rbox(.1,.1,.11,.045,skin);l.position.set(sg*.07,.05,0);G.add(l);return l});
+    const body=rbox(.25,.19,.21,.085,skin);body.position.y=.19;G.add(body);
+    const rag=box(.27,.085,.23,"#6B513A");rag.position.y=.14;G.add(rag);
+    const head=ball(.205,skin);head.scale.set(1,.92,.9);head.position.y=.45;G.add(head);
+    /* ears swept up and back, short rather than droopy */
+    const ears=[-1,1].map(sg=>{const e=cyl(.004,.082,.24,skin,8);e.position.set(sg*.165,.53,-.02);
+      e.rotation.z=sg*-1.2;e.rotation.x=-.3;G.add(e);return e});
+    const nose=cyl(.004,.042,.1,skin,8);nose.rotation.x=Math.PI/2;nose.position.set(0,.43,.19);G.add(nose);
+    /* the eyes do the acting, so they are the biggest thing on him */
+    const eyes=[-1,1].map(sg=>{const e=ball(.062,"#FFE08A",{emissive:lin("#7A5400"),emissiveIntensity:.6,roughness:.22});
+      e.scale.set(1,1.1,.8);e.position.set(sg*.085,.49,.145);G.add(e);
+      const p=ball(.026,"#1C1813");p.position.set(sg*.092,.485,.19);G.add(p);return e});
+    const mouth=box(.1,.02,.02,"#2B2018",{bumpScale:0});mouth.position.set(0,.375,.165);G.add(mouth);
+    const arms=[-1,1].map(sg=>{const a2=rbox(.075,.14,.08,.035,skin);a2.position.set(sg*.165,.22,.02);G.add(a2);return a2});
     G.userData={legs,ears,eyes,arms,head,mouth,sh};
     return G;
   }
-  const GOBS=[...Array(11)].map((_,i)=>{
+  const GOBS=[...Array(18)].map((_,i)=>{
     const G=mkGoblin(i);
-    const x=-1.1+i*.52+((i*5)%3)*.16, z=-.5+((i*7)%5)*.3;
+    const x=-1.3+i*.34+((i*5)%3)*.11, z=-.55+((i*7)%6)*.26;
     G.userData.home=[x,z];
-    G.userData.sp=2.6+((i*13)%7)*.28;
+    G.userData.sp=2.4+((i*13)%7)*.3;
     G.userData.ph=i*1.21;
-    G.userData.sc=.98+((i*5)%4)*.13;
+    G.userData.sc=.5+((i*5)%4)*.075;
     G.scale.setScalar(G.userData.sc);
     G.position.set(x,0,z);
     root.add(G);return G;
@@ -3589,8 +3591,8 @@ function mineTick(time,dt,rect,VP){
       const sp=u.sp*(1+i%3*.1);
       G.position.x+=u.run*sp*dt;
       G.rotation.y=u.run<0?-1.57:1.57;
-      G.position.y=Math.abs(Math.sin(time*13+u.ph))*.055*r;
-      u.legs.forEach((l,k)=>l.rotation.x=Math.sin(time*13+u.ph+k*Math.PI)*.8*r);
+      G.position.y=Math.abs(Math.sin(time*18+u.ph))*.04*r;
+      u.legs.forEach((l,k)=>l.rotation.x=Math.sin(time*18+u.ph+k*Math.PI)*.85*r);
       u.arms.forEach((a2,k)=>a2.rotation.x=Math.sin(time*13+u.ph+k*Math.PI)*.9*r);
       /* each one sheds a coin as it bolts, and the coin stays */
       if(!u.dropped&&t>u.dropAt){u.dropped=true;
