@@ -2950,27 +2950,62 @@ function makeShift(){
     const hd=new THREE.Mesh(new THREE.BoxGeometry(.13,.28,.07),
       [sd,sd,sd,sd,new THREE.MeshStandardMaterial({map:t,roughness:.4,metalness:.3}),sd]);
     hd.position.y=.88;b.add(hd);return b});
-  /* the key */
+  /* the key: a proper keycap, tapered and seated in a plate, not a slab */
   const key=new THREE.Group();key.position.set(-.86,.52,.56);g.add(key);
-  const cap=rbox(.44,.12,.3,.05,"#E9E0C9");key.add(cap);
-  const KT=ctex(220,150,(c,W,H)=>{c.fillStyle="#E9E0C9";c.fillRect(0,0,W,H);c.fillStyle="#2E2A26";
-    c.font="900 44px ui-monospace,monospace";c.textAlign="center";c.textBaseline="middle";c.fillText("SHIFT",W/2,H/2)});
-  const kf2=new THREE.Mesh(new THREE.PlaneGeometry(.4,.26),new THREE.MeshStandardMaterial({map:KT,roughness:.8}));
-  kf2.rotation.x=-Math.PI/2;kf2.position.y=.062;key.add(kf2);
-  const stem=cyl(.035,.035,.24,"#8E959D",8,met);stem.position.y=-.16;key.add(stem);
+  const plate=rbox(.76,.08,.56,.03,"#23201C");plate.position.y=-.075;key.add(plate);
+  const capGeo=new THREE.CylinderGeometry(.38,.43,.2,4,1);
+  const cap=new THREE.Mesh(capGeo,clay("#EFE7D2",{roughness:.62}));
+  cap.rotation.y=Math.PI/4;cap.scale.set(1,1,.64);cap.position.y=.1;key.add(cap);
+  /* the legend, drawn rather than typed so the arrow always renders */
+  const KT=ctex(260,170,(c,W,H)=>{
+    c.fillStyle="#EFE7D2";c.fillRect(0,0,W,H);c.fillStyle="#2E2A26";
+    c.beginPath();c.moveTo(W/2,34);c.lineTo(W/2+30,72);c.lineTo(W/2+13,72);
+    c.lineTo(W/2+13,98);c.lineTo(W/2-13,98);c.lineTo(W/2-13,72);c.lineTo(W/2-30,72);
+    c.closePath();c.fill();
+    c.font="900 40px ui-monospace,monospace";c.textAlign="center";c.textBaseline="middle";
+    c.fillText("SHIFT",W/2,134)});
+  const kf2=new THREE.Mesh(new THREE.PlaneGeometry(.49,.33),
+    new THREE.MeshStandardMaterial({map:KT,roughness:.75}));
+  kf2.rotation.x=-Math.PI/2;kf2.position.y=.201;key.add(kf2);
+  const stem=cyl(.045,.045,.26,"#8E959D",8,met);stem.position.y=-.18;key.add(stem);
+
+  /* a hand to say: this one. It retires once you have pressed it. */
+  const SK="#E0B795";
+  const hand=new THREE.Group();hand.position.set(-.60,1.22,.50);hand.rotation.set(.12,.5,.1);
+  hand.scale.setScalar(1.12);g.add(hand);
+  const palm=rbox(.3,.26,.3,.08,SK);palm.position.y=.02;hand.add(palm);
+  /* the index points straight down at the cap */
+  const idx=rbox(.095,.34,.095,.045,SK);idx.position.set(-.02,-.26,.07);hand.add(idx);
+  const tip=ball(.052,SK);tip.position.set(-.02,-.42,.07);hand.add(tip);
+  /* the rest curled under, set back so they do not crowd the finger */
+  [0,1,2].forEach(i=>{const f=rbox(.085,.085,.17,.04,SK);
+    f.position.set(.03+i*.075,-.1+i*.012,-.06-i*.015);f.rotation.x=1.25;hand.add(f)});
+  const thumb=rbox(.1,.09,.2,.045,SK);thumb.position.set(.17,-.02,.09);thumb.rotation.set(.45,0,-.7);hand.add(thumb);
+  const cuff=rbox(.34,.17,.17,.07,"#C4553E");cuff.position.set(.02,.16,-.12);cuff.rotation.x=.25;hand.add(cuff);
   root.add(blob(3.2,2.6,.34));
   const o=mkObj(root,{hint:"Hold Shift. The whole basket moves.",gridK:1.85,down:false,p:0,camDir:SHCAM,
     camLook:new THREE.Vector3(0,.42,0),
-    press(){if(this.down)return;this.down=true;typed(true);bloop(1500,700,.04,.14);crunch()},
+    taught:false,
+    press(){if(this.down)return;this.down=true;this.taught=true;typed(true);bloop(1500,700,.04,.14);crunch()},
     release(){if(!this.down)return;this.down=false;typed(false);bloop(760,1300,.035,.1)},
     pdown(){this.press()},pup(){this.release()},
     react(time){if(this.age(time)<1.6)return;this.reactAt=time;this.press();setTimeout(()=>this.release(),900)},
     tick(time){const dt=this.dt(time),r=reduce?0:1;
       this.p=toward(this.p,this.down?1:0,this.down?16:11,dt);
-      key.position.y=.52-this.p*.07;
+      key.position.y=.52-this.p*.085;
       basket.position.y=.5-this.p*.22;
       basket.rotation.x=this.p*.05;
       g.rotation.y=-.2+Math.sin(time*.3)*.04*r;
+      /* the hand taps toward the key until someone takes the hint */
+      this.fade=toward(this.fade===undefined?1:this.fade,this.taught?0:1,1.8,dt);
+      hand.visible=this.fade>.01;
+      if(hand.visible){
+        const tap=reduce?.5:(Math.sin(time*2.6)*.5+.5);
+        hand.position.y=1.22-tap*.1-this.p*.085;
+        hand.scale.setScalar(.92+this.fade*.08);
+        hand.traverse(m=>{if(m.material&&m.material.transparent!==undefined){
+          m.material.transparent=this.fade<.999;m.material.opacity=this.fade}});
+      }
     }});
   typed(false);
   return o;
