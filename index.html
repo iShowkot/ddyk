@@ -73,6 +73,36 @@ h2,h3{margin:0; text-wrap:balance}
 .sky .rhyme p{margin:14px 0 8px; font-family:Georgia,"Times New Roman",serif; font-size:19px;
   line-height:1.5; color:#FBF7EC}
 .sky .rhyme small{display:block; font-family:var(--mono); font-size:11.5px; line-height:1.6; color:#A8B0C6}
+.sky .vader-copy{display:none; margin:10px 0 0}
+.sky .vader-copy small{display:block; font-family:var(--mono); font-size:11.5px; line-height:1.6; color:#B4BDD6}
+.sky.vader{background:radial-gradient(circle at 78% 42%, rgba(220,34,58,.24) 0%, rgba(16,21,42,0) 46%), linear-gradient(#070A16 0%, #11172E 62%, rgba(17,23,46,0) 100%)}
+.sky.vader .edge-in{left:clamp(18px,6vw,72px); right:auto; top:max(28px, env(safe-area-inset-top,0px));
+  text-align:left; max-width:min(52vw,32ch); padding:0}
+.sky.vader .edge-say{font-size:clamp(21px,3.4vw,31px); line-height:1.15; letter-spacing:-.01em;
+  color:#F7E396; text-shadow:0 2px 18px rgba(247,227,150,.28)}
+.sky.vader .rhyme{display:none}
+.sky.vader .vader-copy{display:block}
+.sky.space{background:radial-gradient(ellipse at 72% 34%, rgba(62,118,214,.16) 0%, rgba(12,18,40,0) 48%), radial-gradient(ellipse at 24% 62%, rgba(120,74,186,.11) 0%, rgba(12,18,40,0) 44%), linear-gradient(#040712 0%, #0A1024 62%, rgba(10,16,36,0) 100%)}
+.sky.space .stars{
+  background-image:
+    radial-gradient(1.7px 1.7px at 7% 28%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 14% 62%, #CFE0FF, transparent),
+    radial-gradient(2.0px 2.0px at 22% 18%, #FBF7EC, transparent),
+    radial-gradient(1.1px 1.1px at 31% 46%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 39% 74%, #D9E5FF, transparent),
+    radial-gradient(1.8px 1.8px at 47% 22%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 54% 58%, #F3EEDA, transparent),
+    radial-gradient(2.1px 2.1px at 63% 30%, #DCEBFF, transparent),
+    radial-gradient(1.3px 1.3px at 71% 68%, #fff, transparent),
+    radial-gradient(1.6px 1.6px at 78% 16%, #FBF7EC, transparent),
+    radial-gradient(1.2px 1.2px at 85% 48%, #CFE0FF, transparent),
+    radial-gradient(1.9px 1.9px at 93% 26%, #fff, transparent),
+    radial-gradient(1.3px 1.3px at 18% 82%, #E9E2C9, transparent),
+    radial-gradient(1.4px 1.4px at 67% 82%, #fff, transparent),
+    radial-gradient(1.1px 1.1px at 89% 74%, #D9E5FF, transparent),
+    radial-gradient(1.5px 1.5px at 43% 40%, #FFF7DC, transparent);
+}
+.sky.space .edge-in,.sky.space .rhyme,.sky.space .vader-copy{display:none}
 .soil .edge-in{position:absolute; left:clamp(18px,5vw,40px); bottom:16px; text-align:left;
   max-width:15ch; padding:0}
 .grid{
@@ -535,6 +565,7 @@ body.dragging{-webkit-user-select:none; user-select:none}
     <p class="edge-say"></p>
     <div class="rhyme"><p>Twinkle, twinkle, little star,<br>How I wonder what you are!</p>
     <small>Jane Taylor, 1806. The tune is French, 1761 — and it is also the alphabet song. They were two separate things until someone put them together in 1838.</small></div>
+    <div class="vader-copy"><small>— Darth Vader, probably. You kept pulling, so now you’re in deep space.</small></div>
   </div>
 </div>
 <div class="edge soil" id="soil" aria-hidden="true">
@@ -2910,7 +2941,7 @@ function makeLogin(){
 /* 32. Shift: the key that lifted the whole basket */
 const SHCAM=new THREE.Vector3(1.4,1.6,3.0);
 function makeShift(){
-  const root=new THREE.Group(),g=new THREE.Group();root.add(g);g.rotation.y=-.2;root.scale.setScalar(.82);
+  const root=new THREE.Group(),g=new THREE.Group();root.add(g);g.rotation.y=-.2;root.scale.setScalar(.84);
   const met={roughness:.4,metalness:.5,bumpScale:.01};
   const body=rbox(2.5,.5,1.5,.14,"#2E2A26");body.position.y=.25;g.add(body);
   /* platen and paper */
@@ -2942,62 +2973,18 @@ function makeShift(){
     const hd=new THREE.Mesh(new THREE.BoxGeometry(.13,.28,.07),
       [sd,sd,sd,sd,new THREE.MeshStandardMaterial({map:t,roughness:.4,metalness:.3}),sd]);
     hd.position.y=.88;b.add(hd);return b});
-  /* the key: a proper keycap, tapered and seated in a plate, not a slab */
-  const key=new THREE.Group();key.position.set(-.86,.52,.56);g.add(key);
-  const plate=rbox(.76,.08,.56,.03,"#23201C");plate.position.y=-.075;key.add(plate);
-  const capGeo=new THREE.CylinderGeometry(.38,.43,.2,4,1);
-  const cap=new THREE.Mesh(capGeo,clay("#EFE7D2",{roughness:.62}));
-  cap.rotation.y=Math.PI/4;cap.scale.set(1,1,.64);cap.position.y=.1;key.add(cap);
-  /* the legend, drawn rather than typed so the arrow always renders */
-  const KT=ctex(260,170,(c,W,H)=>{
-    c.fillStyle="#EFE7D2";c.fillRect(0,0,W,H);c.fillStyle="#2E2A26";
-    c.beginPath();c.moveTo(W/2,34);c.lineTo(W/2+30,72);c.lineTo(W/2+13,72);
-    c.lineTo(W/2+13,98);c.lineTo(W/2-13,98);c.lineTo(W/2-13,72);c.lineTo(W/2-30,72);
-    c.closePath();c.fill();
-    c.font="900 40px ui-monospace,monospace";c.textAlign="center";c.textBaseline="middle";
-    c.fillText("SHIFT",W/2,134)});
-  const kf2=new THREE.Mesh(new THREE.PlaneGeometry(.49,.33),
-    new THREE.MeshStandardMaterial({map:KT,roughness:.75}));
-  kf2.rotation.x=-Math.PI/2;kf2.position.y=.201;key.add(kf2);
-  const stem=cyl(.045,.045,.26,"#8E959D",8,met);stem.position.y=-.18;key.add(stem);
-
-  /* a hand to say: this one. It retires once you have pressed it. */
-  const SK="#E0B795";
-  const hand=new THREE.Group();hand.position.set(-.60,1.22,.50);hand.rotation.set(.12,.5,.1);
-  hand.scale.setScalar(1.12);g.add(hand);
-  const palm=rbox(.3,.26,.3,.08,SK);palm.position.y=.02;hand.add(palm);
-  /* the index points straight down at the cap */
-  const idx=rbox(.095,.34,.095,.045,SK);idx.position.set(-.02,-.26,.07);hand.add(idx);
-  const tip=ball(.052,SK);tip.position.set(-.02,-.42,.07);hand.add(tip);
-  /* the rest curled under, set back so they do not crowd the finger */
-  [0,1,2].forEach(i=>{const f=rbox(.085,.085,.17,.04,SK);
-    f.position.set(.03+i*.075,-.1+i*.012,-.06-i*.015);f.rotation.x=1.25;hand.add(f)});
-  const thumb=rbox(.1,.09,.2,.045,SK);thumb.position.set(.17,-.02,.09);thumb.rotation.set(.45,0,-.7);hand.add(thumb);
-  const cuff=rbox(.34,.17,.17,.07,"#C4553E");cuff.position.set(.02,.16,-.12);cuff.rotation.x=.25;hand.add(cuff);
-  root.add(blob(3.2,2.6,.34));
-  const o=mkObj(root,{hint:"Hold Shift. The whole basket moves.",gridK:1.85,down:false,p:0,camDir:SHCAM,
-    camLook:new THREE.Vector3(0,.42,0),
-    taught:false,
-    press(){if(this.down)return;this.down=true;this.taught=true;typed(true);bloop(1500,700,.04,.14);crunch()},
+  root.add(blob(3.0,2.2,.34));
+  const o=mkObj(root,{hint:"Press and hold. The whole basket moves.",gridK:1.82,down:false,p:0,camDir:SHCAM,
+    camLook:new THREE.Vector3(0,.46,0),
+    press(){if(this.down)return;this.down=true;typed(true);bloop(1500,700,.04,.14);crunch()},
     release(){if(!this.down)return;this.down=false;typed(false);bloop(760,1300,.035,.1)},
     pdown(){this.press()},pup(){this.release()},
     react(time){if(this.age(time)<1.6)return;this.reactAt=time;this.press();setTimeout(()=>this.release(),900)},
     tick(time){const dt=this.dt(time),r=reduce?0:1;
       this.p=toward(this.p,this.down?1:0,this.down?16:11,dt);
-      key.position.y=.52-this.p*.085;
       basket.position.y=.5-this.p*.22;
       basket.rotation.x=this.p*.05;
       g.rotation.y=-.2+Math.sin(time*.3)*.04*r;
-      /* the hand taps toward the key until someone takes the hint */
-      this.fade=toward(this.fade===undefined?1:this.fade,this.taught?0:1,1.8,dt);
-      hand.visible=this.fade>.01;
-      if(hand.visible){
-        const tap=reduce?.5:(Math.sin(time*2.6)*.5+.5);
-        hand.position.y=1.22-tap*.1-this.p*.085;
-        hand.scale.setScalar(.92+this.fade*.08);
-        hand.traverse(m=>{if(m.material&&m.material.transparent!==undefined){
-          m.material.transparent=this.fade<.999;m.material.opacity=this.fade}});
-      }
     }});
   typed(false);
   return o;
@@ -3176,6 +3163,7 @@ function makeScroll(){
   return mkObj(root,{hint:"Drag down to unroll it. You have been unrolling one of these all day.",camDir:SCRCAM,camLook:SCRLOOK,gridK:1.52,p:0,rust:0,
     setP(v,now){const was=this.p;this.p=clamp(v,0,1);lay(this.p);
       if(Math.abs(this.p-was)>.02&&(now-this.rust)>.2){this.rust=now;crunch()}},
+    pdown(){this.goal=null},
     pmove(dx,dy,now){this.setP(this.p+dy*1.25,now||0)},
     react(time){if(this.age(time)<1.5)return;this.reactAt=time;this.goal=this.p>.5?0:Math.random()*.5+.45},
     tick(time){const dt=this.dt(time);
@@ -3331,20 +3319,41 @@ function edgeSay(el,txt,deep){
   el.classList.toggle("deep",!!deep);
   el.classList.add("on");
 }
-function edgeOff(){skyEl.classList.remove("on","deep");soilEl.classList.remove("on","deep")}
+function edgeOff(){skyEl.classList.remove("on","deep","vader","space");soilEl.classList.remove("on","deep")}
 function pullTo(d){
   if(P.open||Z.k>.01||D.carry)return false;
   if(d>0&&!atTop())return false;
   if(d<0&&!atBottom())return false;
-  /* the second pull opens further, so the rhyme has somewhere to live */
-  MAXP=d<0?300:((PULL.top>=1)?330:190);
+  /* 1st: nothing; 2nd: rhyme; 3rd: Darth Vader; 4th: spaceship flying away; 5th+: just space */
+  MAXP=d<0?300:(PULL.top>=4?280:(PULL.top>=1?330:190));
   PULL.yT=damp(d);PULL.side=Math.sign(d);
   const deepEnough=Math.abs(PULL.yT)>26;
   if(PULL.side>0){
     skyEl.classList.add("on");soilEl.classList.remove("on","deep");
-    if(deepEnough)edgeSay(skyEl,PULL.top>=1?"…fine, there’s this.":"There’s nothing up here.",PULL.top>=1);
+    const stage=PULL.top;
+    const isVader=stage===2;
+    const isShip=stage===3;
+    const isSpace=stage>=3;
+    skyEl.classList.toggle("vader",isVader);
+    skyEl.classList.toggle("space",isSpace);
+    if(isVader){
+      VADER.show=true;SHIP.show=false;
+      if(!VADER.open){VADER.open=true;vaderOpen()}
+      if(deepEnough)edgeSay(skyEl,"May the AI be with you.",false);
+    }else if(isShip){
+      VADER.show=false;SHIP.show=true;
+      if(!SHIP.open){SHIP.open=true;shipOpen()}
+      edgeSay(skyEl,"",false);
+    }else if(stage>=4){
+      VADER.show=false;SHIP.show=false;
+      edgeSay(skyEl,"",false);
+    }else{
+      VADER.show=false;SHIP.show=false;
+      if(deepEnough)edgeSay(skyEl,stage>=1?"…fine, there’s this.":"There’s nothing up here.",stage>=1);
+    }
   }else{
-    soilEl.classList.add("on");skyEl.classList.remove("on","deep");
+    VADER.show=false;SHIP.show=false;
+    soilEl.classList.add("on");skyEl.classList.remove("on","deep","vader","space");
     if(!MINE.open){MINE.open=true;mineOpen()}
     if(deepEnough)edgeSay(soilEl,PULL.bot>=1?"Not yet.":"Nothing down here either.",PULL.bot>=1);
   }
@@ -3360,7 +3369,7 @@ function pullRelease(){
 }
 function pullTick(now,dt){
   PULL.y=toward(PULL.y,PULL.yT,10,dt);
-  if(Math.abs(PULL.y)<.4&&PULL.yT===0){PULL.y=0;MINE.open=false;if(PULL.side&&now>PULL.rel){PULL.side=0;edgeOff()}}
+  if(Math.abs(PULL.y)<.4&&PULL.yT===0){PULL.y=0;MINE.open=false;VADER.open=false;VADER.show=false;SHIP.open=false;SHIP.show=false;if(PULL.side&&now>PULL.rel){PULL.side=0;edgeOff()}}
 
   const a=Math.min(1,Math.abs(PULL.y)/110);
   (PULL.side>0?skyEl:soilEl).style.setProperty("--a",a.toFixed(3));
@@ -3440,6 +3449,375 @@ addEventListener("touchend",e=>{
   if(SC.pull){SC.pull=0;pullRelease();SC.v=0;return}
   if(performance.now()-SC.lt>90)SC.v=0;   /* a finger that stopped should not fling */
 },{passive:true});
+
+/* ================= the third pull up: Darth Vader in deep space ================= */
+const VADER={v:null,t:0,open:false,show:false};
+const VADERCAM=new THREE.Vector3(.2,1.18,3.95);
+function vaderSound(){
+  if(!soundOn||!AC)return;
+  const t=AC.currentTime;
+  /* lightsaber snap-hiss + low hum */
+  const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();
+  s.buffer=NOISE;f.type="bandpass";f.Q.value=3.2;
+  f.frequency.setValueAtTime(650,t);f.frequency.exponentialRampToValueAtTime(2200,t+.16);
+  f.frequency.exponentialRampToValueAtTime(420,t+.42);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.22,t+.03);
+  g.gain.exponentialRampToValueAtTime(.0001,t+.44);
+  s.connect(f).connect(g).connect(AC.destination);s.start(t);s.stop(t+.48);
+  const o=AC.createOscillator(),og=AC.createGain();
+  o.type="sawtooth";o.frequency.setValueAtTime(86,t);o.frequency.exponentialRampToValueAtTime(108,t+.14);
+  o.frequency.exponentialRampToValueAtTime(92,t+.58);
+  const lp=AC.createBiquadFilter();lp.type="lowpass";lp.frequency.value=260;
+  og.gain.setValueAtTime(.0001,t);og.gain.exponentialRampToValueAtTime(.06,t+.06);
+  og.gain.exponentialRampToValueAtTime(.0001,t+.6);
+  o.connect(lp).connect(og).connect(AC.destination);o.start(t);o.stop(t+.64);
+  /* mechanical breath exhale */
+  const b=AC.createBufferSource(),bf=AC.createBiquadFilter(),bg=AC.createGain();
+  b.buffer=NOISE;bf.type="bandpass";bf.Q.value=5;
+  bf.frequency.setValueAtTime(460,t+.46);bf.frequency.exponentialRampToValueAtTime(300,t+.92);
+  bg.gain.setValueAtTime(.0001,t+.46);bg.gain.exponentialRampToValueAtTime(.14,t+.56);
+  bg.gain.exponentialRampToValueAtTime(.0001,t+.95);
+  b.connect(bf).connect(bg).connect(AC.destination);b.start(t+.46);b.stop(t+.98);
+}
+function buildVader(){
+  const scene=new THREE.Scene();
+  scene.add(new THREE.HemisphereLight(0x526DB8,0x0B0D18,.95));
+  const rim=new THREE.DirectionalLight(0x9BB8FF,1.7);rim.position.set(2.4,2.8,1.8);scene.add(rim);
+  const backRim=new THREE.DirectionalLight(0x6E8EFF,1.25);backRim.position.set(-2.2,2.2,-2.4);scene.add(backRim);
+  const root=new THREE.Group();scene.add(root);
+  const cam=new THREE.PerspectiveCamera(30,1,.1,50);
+  const armorMat=new THREE.MeshStandardMaterial({color:lin("#1E2129"),roughness:.22,metalness:.36,bumpMap:CRAYON,bumpScale:.008});
+  const capeMat=new THREE.MeshStandardMaterial({color:lin("#121319"),roughness:.92,metalness:.02,bumpMap:CRAYON,bumpScale:.018,side:THREE.DoubleSide});
+  const suitMat=new THREE.MeshStandardMaterial({color:lin("#242730"),roughness:.62,metalness:.14,bumpMap:CRAYON,bumpScale:.014});
+  const trimMat=new THREE.MeshStandardMaterial({color:lin("#8B93A0"),roughness:.3,metalness:.75});
+  const lensMat=new THREE.MeshStandardMaterial({color:lin("#0E080A"),emissive:lin("#4E0A12"),emissiveIntensity:.65,roughness:.08,metalness:.65});
+  const vader=new THREE.Group();root.add(vader);
+  /* billowing cape behind torso (open at +Z front so chest armor & LEDs stay visible) */
+  const cape=new THREE.Mesh(new THREE.CylinderGeometry(.28,.72,1.26,22,1,true,Math.PI*.22,Math.PI*1.56),capeMat);
+  cape.position.set(0,.58,-.11);vader.add(cape);
+  /* armored torso, belt & iconic sloped shoulder pauldrons */
+  const torso=new THREE.Mesh(new THREE.CylinderGeometry(.25,.31,.76,18),suitMat);torso.position.set(0,.68,0);vader.add(torso);
+  const chestArm=new THREE.Mesh(new THREE.BoxGeometry(.54,.3,.28),armorMat);chestArm.position.set(0,.96,.04);vader.add(chestArm);
+  [-1,1].forEach(sg=>{
+    const pld=new THREE.Mesh(new THREE.SphereGeometry(.2,16,12),armorMat);
+    pld.scale.set(1.22,.62,1.02);pld.position.set(sg*.34,1.05,.02);pld.rotation.z=sg*-.34;vader.add(pld);
+  });
+  const belt=new THREE.Mesh(new THREE.BoxGeometry(.58,.11,.36),armorMat);belt.position.set(0,.42,.01);vader.add(belt);
+  const buckle=new THREE.Mesh(new THREE.BoxGeometry(.14,.09,.06),trimMat);buckle.position.set(0,.42,.18);vader.add(buckle);
+  /* chest control box with glowing indicator tiles */
+  const cbox=new THREE.Mesh(new THREE.BoxGeometry(.22,.22,.08),armorMat);cbox.position.set(0,.84,.18);vader.add(cbox);
+  [["#FF3B30",-.055,.045],["#4CD964",0,.045],["#5AC8FA",.055,.045]].forEach(([col,lx,ly])=>{
+    const led=new THREE.Mesh(new THREE.BoxGeometry(.038,.038,.02),
+      new THREE.MeshStandardMaterial({color:lin(col),emissive:lin(col),emissiveIntensity:1.4,roughness:.2}));
+    led.position.set(lx,ly,.042);cbox.add(led);
+  });
+  [-.055,0,.055].forEach(lx=>{
+    const sw=new THREE.Mesh(new THREE.BoxGeometry(.024,.055,.02),trimMat);sw.position.set(lx,-.04,.042);cbox.add(sw);
+  });
+  /* iconic Darth Vader helmet */
+  const head=new THREE.Group();head.position.set(0,1.38,.02);vader.add(head);
+  const dome=new THREE.Mesh(new THREE.SphereGeometry(.255,24,18),armorMat);dome.scale.set(1.02,.96,1.05);dome.position.y=.04;head.add(dome);
+  const ridge=new THREE.Mesh(new THREE.BoxGeometry(.052,.13,.46),armorMat);ridge.position.set(0,.19,-.01);head.add(ridge);
+  /* flared helmet skirt / cowl */
+  const skirtMat=armorMat.clone();skirtMat.side=THREE.DoubleSide;
+  const skirt=new THREE.Mesh(new THREE.CylinderGeometry(.245,.39,.27,24,1,true,-Math.PI*.78,Math.PI*1.56),skirtMat);
+  skirt.position.set(0,-.08,-.03);skirt.rotation.y=Math.PI;head.add(skirt);
+  const rimBand=new THREE.Mesh(new THREE.TorusGeometry(.256,.026,10,28),armorMat);
+  rimBand.rotation.x=Math.PI/2+.12;rimBand.position.set(0,.03,.01);head.add(rimBand);
+  /* fierce V-shaped brow & dark visor lenses */
+  [-1,1].forEach(sg=>{
+    const br=new THREE.Mesh(new THREE.BoxGeometry(.16,.048,.14),armorMat);
+    br.position.set(sg*.078,.045,.19);br.rotation.z=sg*.18;br.rotation.y=sg*-.14;head.add(br);
+    const ey=new THREE.Mesh(new THREE.SphereGeometry(.055,14,10),lensMat);
+    ey.scale.set(1.15,.68,.55);ey.position.set(sg*.08,-.005,.215);ey.rotation.z=sg*.15;head.add(ey);
+  });
+  /* protruding triangular breathing mask + silver grille slats & tusks */
+  const mask=new THREE.Mesh(new THREE.ConeGeometry(.14,.21,4),armorMat);
+  mask.rotation.y=Math.PI/4;mask.scale.set(1.05,.95,.85);mask.position.set(0,-.11,.205);head.add(mask);
+  [-.04,0,.04].forEach(gx=>{
+    const sl=new THREE.Mesh(new THREE.BoxGeometry(.014,.095,.02),trimMat);
+    sl.position.set(gx,-.125,.285);sl.rotation.x=-.28;head.add(sl);
+  });
+  [-1,1].forEach(sg=>{
+    const tk=new THREE.Mesh(new THREE.CylinderGeometry(.016,.016,.09,10),trimMat);
+    tk.rotation.x=Math.PI/2;tk.rotation.z=sg*.25;tk.position.set(sg*.088,-.15,.255);head.add(tk);
+  });
+  /* left arm: subtle Force / AI gesture toward the viewer */
+  const armL=new THREE.Group();armL.position.set(.38,.98,.04);vader.add(armL);
+  const uArmL=new THREE.Mesh(new THREE.CylinderGeometry(.075,.07,.38,14),suitMat);
+  uArmL.position.set(.05,-.14,.1);uArmL.rotation.set(-.65,0,.22);armL.add(uArmL);
+  const handL=new THREE.Mesh(new THREE.SphereGeometry(.072,14,10),armorMat);
+  handL.scale.set(.95,.75,1.2);handL.position.set(.1,-.22,.27);armL.add(handL);
+  /* right arm + glowing crimson lightsaber */
+  const armR=new THREE.Group();armR.position.set(-.38,.98,.04);vader.add(armR);
+  const uArmR=new THREE.Mesh(new THREE.CylinderGeometry(.075,.07,.36,14),suitMat);
+  uArmR.position.set(-.08,-.1,.12);uArmR.rotation.set(-.72,0,-.34);armR.add(uArmR);
+  const handR=new THREE.Mesh(new THREE.SphereGeometry(.072,14,10),armorMat);
+  handR.position.set(-.15,-.17,.26);armR.add(handR);
+  const saber=new THREE.Group();saber.position.set(-.15,-.17,.27);saber.rotation.set(.16,0,.38);armR.add(saber);
+  const hilt=new THREE.Mesh(new THREE.CylinderGeometry(.028,.03,.24,14),trimMat);saber.add(hilt);
+  const grip=new THREE.Mesh(new THREE.CylinderGeometry(.032,.032,.11,14),armorMat);grip.position.y=-.04;saber.add(grip);
+  const btn=new THREE.Mesh(new THREE.BoxGeometry(.018,.034,.022),
+    new THREE.MeshStandardMaterial({color:lin("#D9363E"),emissive:lin("#8A1218"),emissiveIntensity:.8,roughness:.3}));
+  btn.position.set(0,.03,.026);saber.add(btn);
+  /* ignited crimson blade (pivots at emitter so it extends smoothly on unfold) */
+  const blade=new THREE.Group();blade.position.y=.12;saber.add(blade);
+  const BL=1.08;
+  const core=new THREE.Mesh(new THREE.CylinderGeometry(.013,.015,BL,12),new THREE.MeshBasicMaterial({color:0xFFF2F4}));
+  core.position.y=BL/2;blade.add(core);
+  const coreTip=new THREE.Mesh(new THREE.SphereGeometry(.013,10,8),new THREE.MeshBasicMaterial({color:0xFFF2F4}));
+  coreTip.position.y=BL;blade.add(coreTip);
+  const sheathMat=new THREE.MeshBasicMaterial({color:0xFF2440,transparent:true,opacity:.68,blending:THREE.AdditiveBlending,depthWrite:false});
+  const sheath=new THREE.Mesh(new THREE.CylinderGeometry(.032,.036,BL+.02,14),sheathMat);
+  sheath.position.y=BL/2;blade.add(sheath);
+  const haloMat=new THREE.MeshBasicMaterial({color:0xFF1430,transparent:true,opacity:.26,blending:THREE.AdditiveBlending,depthWrite:false});
+  const halo=new THREE.Mesh(new THREE.CylinderGeometry(.068,.072,BL+.06,14),haloMat);
+  halo.position.y=BL/2;blade.add(halo);
+  const saberLight=new THREE.PointLight(0xFF2846,0,5.2,1.6);saberLight.position.set(0,.52,.12);blade.add(saberLight);
+  /* subtle drifting deep-space star motes */
+  const starGeo=new THREE.SphereGeometry(.018,6,6);
+  const starMat=new THREE.MeshBasicMaterial({color:0xF4F2E8});
+  const motes=[[-1.1,1.7,-1.2],[.95,1.85,-1.4],[-.85,.5,-1.1],[1.1,.85,-1.3],[.15,2.0,-1.5],[-.35,1.9,-1.2]].map(([x,y,z],i)=>{
+    const m=new THREE.Mesh(starGeo,starMat);m.position.set(x,y,z);m.userData={y,ph:i*1.3};root.add(m);return m;
+  });
+  vader.rotation.y=-.26;
+  return {scene,cam,root,vader,head,cape,armL,armR,blade,sheathMat,haloMat,saberLight,motes};
+}
+function vaderOpen(){
+  if(!VADER.v)VADER.v=buildVader();
+  VADER.t=0;
+  VADER.v.blade.scale.set(1,.001,1);
+  vaderSound();
+}
+function vaderTick(time,dt,rect,VP){
+  if(!VADER.v)return;
+  const V=VADER.v,r=reduce?0:1;VADER.t+=dt;const t=VADER.t;
+  const ig=ss(.06,.42,t);
+  const flk=1+Math.sin(time*48)*.04*r+Math.sin(time*83)*.03*r;
+  V.blade.scale.set(1,Math.max(.001,ig),1);
+  V.sheathMat.opacity=.66*ig*flk;
+  V.haloMat.opacity=.25*ig*flk;
+  V.saberLight.intensity=3.6*ig*flk;
+  /* slow menacing breath & space hover */
+  const br=Math.sin(time*2.1)*r;
+  V.vader.position.y=br*.035;
+  V.vader.rotation.y=-.26+Math.sin(time*.85)*.08*r;
+  V.head.rotation.y=Math.sin(time*.65)*.06*r;
+  V.head.rotation.x=-.03+br*.03;
+  V.cape.rotation.z=Math.sin(time*1.7)*.035*r;
+  V.armL.rotation.x=Math.sin(time*1.9)*.06*r;
+  V.armR.rotation.z=Math.sin(time*1.5)*.04*r;
+  V.motes.forEach(m=>{m.position.y=m.userData.y+Math.sin(time*.7+m.userData.ph)*.06*r});
+  const c=inter(rect,VP);if(!c||rect.height<24||rect.width<24)return;
+  V.cam.aspect=Math.max(.3,rect.width/rect.height);
+  V.cam.position.copy(VADERCAM).multiplyScalar(Math.max(1,1.12/V.cam.aspect));
+  V.cam.lookAt(-.08,1.02,0);V.cam.updateProjectionMatrix();
+  const H=canvas.clientHeight;
+  R.setViewport(q(rect.left),q(H-rect.top-rect.height),q(rect.width),q(rect.height));
+  R.setScissor(q(c.left),q(H-c.bottom),q(c.width),q(c.height));
+  R.clearDepth();R.render(V.scene,V.cam);
+}
+
+/* ================= the fourth pull up: a clay spaceship flying away into deep space ================= */
+const SHIP={v:null,t:0,open:false,show:false};
+const SHIPCAM=new THREE.Vector3(0,.35,4.2);
+const _shipPos=new THREE.Vector3(),_shipNext=new THREE.Vector3(),_shipTrail=new THREE.Vector3();
+function shipSound(){
+  if(!soundOn||!AC)return;
+  const t=AC.currentTime;
+  /* twin-ion engine roar + Doppler pitch-down receding into space */
+  const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();
+  s.buffer=NOISE;f.type="bandpass";f.Q.value=2.1;
+  f.frequency.setValueAtTime(1150,t);f.frequency.exponentialRampToValueAtTime(190,t+1.45);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.19,t+.09);
+  g.gain.exponentialRampToValueAtTime(.0001,t+1.5);
+  s.connect(f).connect(g).connect(AC.destination);s.start(t);s.stop(t+1.55);
+  const o=AC.createOscillator(),o2=AC.createOscillator(),og=AC.createGain(),lp=AC.createBiquadFilter();
+  o.type="sawtooth";o2.type="triangle";
+  o.frequency.setValueAtTime(310,t);o.frequency.exponentialRampToValueAtTime(98,t+1.4);
+  o2.frequency.setValueAtTime(620,t);o2.frequency.exponentialRampToValueAtTime(192,t+1.4);
+  lp.type="lowpass";lp.frequency.setValueAtTime(980,t);lp.frequency.exponentialRampToValueAtTime(240,t+1.4);
+  og.gain.setValueAtTime(.0001,t);og.gain.exponentialRampToValueAtTime(.065,t+.08);
+  og.gain.exponentialRampToValueAtTime(.0001,t+1.45);
+  o.connect(lp);o2.connect(lp);lp.connect(og).connect(AC.destination);
+  o.start(t);o2.start(t);o.stop(t+1.5);o2.stop(t+1.5);
+}
+function shipCurve(s,out){
+  /* smooth accelerating arc from foreground-left deep into upper-right space */
+  const d=s*s*3.4+s*2.8;
+  out.set(-1.35+s*1.55+s*s*.12, -.16+s*.62+Math.sin(Math.min(1,s*.45)*Math.PI)*.14, 1.4-d);
+  return out;
+}
+function buildShip(){
+  const scene=new THREE.Scene();
+  scene.add(new THREE.HemisphereLight(0x88B2FF,0x10162B,1.05));
+  const key=new THREE.DirectionalLight(0xFFEBD2,1.65);key.position.set(2.8,3.4,3.2);scene.add(key);
+  const rim=new THREE.DirectionalLight(0x63A8FF,1.35);rim.position.set(-3.2,1.6,-2.4);scene.add(rim);
+  const cam=new THREE.PerspectiveCamera(34,1,.1,95);
+  const hullMat=new THREE.MeshStandardMaterial({color:lin("#E6E0D3"),roughness:.52,metalness:.14,bumpMap:CRAYON,bumpScale:.011});
+  const slateMat=new THREE.MeshStandardMaterial({color:lin("#38435B"),roughness:.44,metalness:.3,bumpMap:CRAYON,bumpScale:.01});
+  const accentMat=new THREE.MeshStandardMaterial({color:lin("#D8553C"),roughness:.48,metalness:.08,bumpMap:CRAYON,bumpScale:.01});
+  const metalMat=new THREE.MeshStandardMaterial({color:lin("#6E788A"),roughness:.3,metalness:.72});
+  const glassMat=new THREE.MeshStandardMaterial({color:lin("#16283E"),emissive:lin("#22567A"),emissiveIntensity:.55,roughness:.12,metalness:.65});
+  /* craft built with nose along +Z and twin ion thrusters facing -Z */
+  const craft=new THREE.Group();scene.add(craft);
+  /* 1. Sculpted Lathe fuselage */
+  const pts=[
+    new THREE.Vector2(.01,-.58),new THREE.Vector2(.21,-.55),new THREE.Vector2(.26,-.32),
+    new THREE.Vector2(.25,.05),new THREE.Vector2(.19,.44),new THREE.Vector2(.095,.74),new THREE.Vector2(.008,.9)
+  ];
+  const hullGeo=new THREE.LatheGeometry(pts,22);hullGeo.rotateX(Math.PI/2);
+  const hull=new THREE.Mesh(hullGeo,hullMat);hull.scale.set(1.06,.86,1);craft.add(hull);
+  /* nose band & dorsal spine */
+  const collar=new THREE.Mesh(new THREE.CylinderGeometry(.198,.228,.16,20),accentMat);
+  collar.rotation.x=Math.PI/2;collar.scale.set(1.06,.86,1);collar.position.z=.36;craft.add(collar);
+  const spine=new THREE.Mesh(new THREE.BoxGeometry(.13,.12,.68),slateMat);
+  spine.position.set(0,.16,-.22);craft.add(spine);
+  /* 2. Cockpit canopy & metallic frame */
+  const canopy=new THREE.Mesh(new THREE.SphereGeometry(.16,18,14),glassMat);
+  canopy.scale.set(.86,.68,1.58);canopy.position.set(0,.15,.12);craft.add(canopy);
+  const cRim=new THREE.Mesh(new THREE.TorusGeometry(.145,.02,8,20),metalMat);
+  cRim.rotation.x=Math.PI/2-.18;cRim.scale.set(.95,1.45,1);cRim.position.set(0,.11,.13);craft.add(cRim);
+  /* 3. Swept beveled delta wings + wingtip stripes & twin laser cannons */
+  [-1,1].forEach(sg=>{
+    const wWrap=new THREE.Group();wWrap.rotation.z=sg*-.09;
+    const wShape=new THREE.Shape();
+    if(sg>0){wShape.moveTo(0,.18);wShape.lineTo(.98,-.34);wShape.lineTo(1.04,-.54);wShape.lineTo(.16,-.48)}
+    else{wShape.moveTo(0,.18);wShape.lineTo(-.16,-.48);wShape.lineTo(-1.04,-.54);wShape.lineTo(-.98,-.34)}
+    wShape.closePath();
+    const wGeo=new THREE.ExtrudeGeometry(wShape,{depth:.045,bevelEnabled:true,bevelThickness:.014,bevelSize:.014,bevelSegments:2});
+    wGeo.rotateX(Math.PI/2);
+    const wing=new THREE.Mesh(wGeo,hullMat);wing.position.set(sg*.14,.02,-.06);wWrap.add(wing);
+    const stripe=new THREE.Mesh(new THREE.BoxGeometry(.22,.058,.24),accentMat);
+    stripe.position.set(sg*.82,0,-.45);stripe.rotation.y=sg*-.34;wWrap.add(stripe);
+    const cannon=new THREE.Mesh(new THREE.CylinderGeometry(.02,.024,.56,10),metalMat);
+    cannon.rotation.x=Math.PI/2;cannon.position.set(sg*1.12,-.02,-.24);wWrap.add(cannon);
+    const tip=new THREE.Mesh(new THREE.SphereGeometry(.022,8,8),accentMat);
+    tip.position.set(sg*1.12,-.02,.04);wWrap.add(tip);
+    craft.add(wWrap);
+  });
+  /* 4. Sculpted dorsal tail fin */
+  const fShape=new THREE.Shape();
+  fShape.moveTo(-.06,0);fShape.lineTo(-.56,0);fShape.lineTo(-.66,.44);fShape.lineTo(-.46,.46);fShape.closePath();
+  const fGeo=new THREE.ExtrudeGeometry(fShape,{depth:.036,bevelEnabled:true,bevelThickness:.012,bevelSize:.012,bevelSegments:2});
+  fGeo.translate(0,0,-.018);fGeo.rotateY(-Math.PI/2);
+  const fin=new THREE.Mesh(fGeo,slateMat);fin.position.set(0,.14,-.02);craft.add(fin);
+  const finTip=new THREE.Mesh(new THREE.BoxGeometry(.052,.09,.19),accentMat);
+  finTip.position.set(0,.57,-.57);craft.add(finTip);
+  /* 5. Twin aft engine nacelles + glowing ion thruster plumes */
+  const plumeMats=[],plumes=[];
+  const coreMat=new THREE.MeshBasicMaterial({color:0xEFFDFF});
+  [-1,1].forEach(sg=>{
+    const pod=new THREE.Mesh(new THREE.CylinderGeometry(.11,.135,.48,16),metalMat);
+    pod.rotation.x=Math.PI/2;pod.position.set(sg*.27,-.02,-.38);craft.add(pod);
+    const noz=new THREE.Mesh(new THREE.CylinderGeometry(.095,.115,.1,14),slateMat);
+    noz.rotation.x=Math.PI/2;noz.position.set(sg*.27,-.02,-.64);craft.add(noz);
+    const core=new THREE.Mesh(new THREE.SphereGeometry(.072,12,10),coreMat);
+    core.scale.set(1,1,.65);core.position.set(sg*.27,-.02,-.68);craft.add(core);
+    const pGrp=new THREE.Group();pGrp.position.set(sg*.27,-.02,-.68);craft.add(pGrp);
+    const inMat=new THREE.MeshBasicMaterial({color:0x52DCFF,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false});
+    const inCone=new THREE.Mesh(new THREE.ConeGeometry(.078,.72,12),inMat);
+    inCone.rotation.x=-Math.PI/2;inCone.position.z=-.36;pGrp.add(inCone);
+    const outMat=new THREE.MeshBasicMaterial({color:0x1C84FF,transparent:true,opacity:.36,blending:THREE.AdditiveBlending,depthWrite:false});
+    const outCone=new THREE.Mesh(new THREE.ConeGeometry(.145,1.28,12),outMat);
+    outCone.rotation.x=-Math.PI/2;outCone.position.z=-.62;pGrp.add(outCone);
+    plumeMats.push(inMat,outMat);plumes.push(pGrp);
+  });
+  const engLight=new THREE.PointLight(0x46C8FF,3.4,7.5,1.5);
+  engLight.position.set(0,.02,-.95);craft.add(engLight);
+  /* 6. Ion exhaust trail motes drifting behind the flight path */
+  const trailGeo=new THREE.SphereGeometry(.055,8,8);
+  const trail=[];
+  for(let i=0;i<14;i++){
+    const tm=new THREE.MeshBasicMaterial({color:i%2?0x6BE0FF:0x2994FF,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+    const m=new THREE.Mesh(trailGeo,tm);m.visible=false;scene.add(m);trail.push(m);
+  }
+  /* 7. Distant warp-pinpoint star glint when the ship disappears far away */
+  const glint=new THREE.Group();glint.visible=false;scene.add(glint);
+  const gMat=new THREE.MeshBasicMaterial({color:0xD6F4FF,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+  const gH=new THREE.Mesh(new THREE.PlaneGeometry(1.15,.08),gMat);
+  const gV=new THREE.Mesh(new THREE.PlaneGeometry(.08,.95),gMat);
+  const gC=new THREE.Mesh(new THREE.SphereGeometry(.09,10,8),gMat);
+  glint.add(gH,gV,gC);
+  /* 8. 3D parallax starfield via InstancedMesh */
+  const SCOUNT=68;
+  const starInst=new THREE.InstancedMesh(new THREE.SphereGeometry(.045,6,6),new THREE.MeshBasicMaterial({color:0xffffff}),SCOUNT);
+  const dum=new THREE.Object3D(),scol=new THREE.Color();
+  const tints=[0xFFFFFF,0xCFE2FF,0xFBF3DC,0xA8CEFF];
+  for(let i=0;i<SCOUNT;i++){
+    const a=(i*2.39996)%(Math.PI*2),rad=2.2+(i*17%19)*.95;
+    dum.position.set(Math.cos(a)*rad*1.55,Math.sin(a)*rad*.52+.5,-5-(i*31%44));
+    dum.scale.setScalar(.55+((i*7)%10)*.11);
+    dum.updateMatrix();starInst.setMatrixAt(i,dum.matrix);
+    scol.setHex(tints[i%tints.length]);starInst.setColorAt(i,scol);
+  }
+  starInst.instanceMatrix.needsUpdate=true;
+  if(starInst.instanceColor)starInst.instanceColor.needsUpdate=true;
+  starInst.computeBoundingSphere();starInst.frustumCulled=false;
+  scene.add(starInst);
+  return {scene,cam,craft,plumes,plumeMats,engLight,trail,glint,gMat,starInst};
+}
+function shipOpen(){
+  if(!SHIP.v)SHIP.v=buildShip();
+  SHIP.t=0;
+  SHIP.v.craft.visible=true;
+  SHIP.v.glint.visible=false;
+  SHIP.v.trail.forEach(m=>{m.visible=false});
+  shipSound();
+}
+function shipTick(time,dt,rect,VP){
+  if(!SHIP.v)return;
+  const V=SHIP.v,r=reduce?0:1;
+  SHIP.t+=dt;const t=SHIP.t;
+  const s=reduce?1.05:t;
+  shipCurve(s,_shipPos);
+  shipCurve(s+.06,_shipNext);
+  V.craft.position.copy(_shipPos);
+  V.craft.lookAt(_shipNext);
+  /* graceful banking roll as it accelerates away into deep space */
+  const bank=-.42+Math.sin(Math.min(1,s*.4)*Math.PI)*-.26+Math.sin(time*2.2)*.035*r;
+  V.craft.rotateZ(bank);
+  const vanish=ss(2.95,3.55,s);
+  V.craft.visible=vanish<.99;
+  const sc=Math.max(.02,(1-vanish*.88)*.95);
+  V.craft.scale.setScalar(sc);
+  /* flickering twin ion exhaust plumes */
+  const flk=1+Math.sin(time*56)*.14*r+Math.sin(time*91)*.09*r;
+  const boost=1+Math.min(1.6,s*.55);
+  V.plumes.forEach(p=>{p.scale.set(1,1,boost*flk)});
+  V.plumeMats.forEach((m,i)=>{m.opacity=(i%2===0?.85:.36)*(1-vanish)*(.88+.12*flk)});
+  V.engLight.intensity=3.4*(1-vanish)*flk;
+  /* trailing cyan ion motes along the recent flight path */
+  V.trail.forEach((m,i)=>{
+    const ts=s-(i+1)*.042;
+    if(ts<0||vanish>=.99){m.visible=false;return}
+    shipCurve(ts,_shipTrail);
+    const side=(i%2===0?-1:1)*.11*(1+i*.06);
+    m.position.set(_shipTrail.x+side,_shipTrail.y,_shipTrail.z);
+    const fade=Math.max(0,1-(i/V.trail.length))*(1-vanish);
+    m.scale.setScalar(.45+fade*.85);
+    m.material.opacity=fade*.42;
+    m.visible=fade>.02;
+  });
+  /* distant pinpoint star glint right as the ship vanishes */
+  const gp=s>2.45&&s<3.45?Math.sin(ss(2.45,3.45,s)*Math.PI):0;
+  V.glint.visible=gp>.01;
+  if(V.glint.visible){
+    V.glint.position.copy(_shipPos);
+    V.glint.lookAt(V.cam.position);
+    V.glint.scale.setScalar(.5+gp*1.55);
+    V.gMat.opacity=gp*.9;
+  }
+  const c=inter(rect,VP);if(!c||rect.height<24||rect.width<24)return;
+  V.cam.aspect=Math.max(.3,rect.width/rect.height);
+  const pullBack=Math.max(1,1.75/V.cam.aspect);
+  V.cam.position.set(SHIPCAM.x,SHIPCAM.y,SHIPCAM.z*pullBack);
+  V.cam.lookAt(.35,.42,-6);V.cam.updateProjectionMatrix();
+  const H=canvas.clientHeight;
+  R.setViewport(q(rect.left),q(H-rect.top-rect.height),q(rect.width),q(rect.height));
+  R.setScissor(q(c.left),q(H-c.bottom),q(c.width),q(c.height));
+  R.clearDepth();R.render(V.scene,V.cam);
+}
 
 /* ================= the miner: caught digging toward the words that are not made yet ================= */
 const MINE={v:null,mode:"busy",t:0,open:false,loot:0,raiders:false};
@@ -4448,6 +4826,14 @@ function frame(now){
   if(!P.open){
     if(INTRO.hideGrid)return;
     drawGrid(time,dt,now,H,VP);
+    if(PULL.side>0&&PULL.y>2&&VADER.show&&VADER.v){
+      const hh=Math.min(PULL.y,H),vw=Math.min(Math.round(W*.46),360),ml=W-vw,mt=0;
+      vaderTick(time,dt,{left:ml,top:mt,width:vw,height:hh,right:W,bottom:hh},VP);
+    }
+    if(PULL.side>0&&PULL.y>2&&SHIP.show&&SHIP.v){
+      const hh=Math.min(PULL.y,H);
+      shipTick(time,dt,{left:0,top:0,width:W,height:hh,right:W,bottom:hh},VP);
+    }
     if(PULL.side<0&&PULL.y<-2&&MINE.v){
       const hh=Math.min(-PULL.y,H),ml=0,mt=H-hh,mw=W;
       mineTick(time,dt,{left:ml,top:mt,width:mw,height:hh,right:ml+mw,bottom:mt+hh},VP);
