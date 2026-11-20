@@ -13,6 +13,7 @@ const BLOCKED_PATHS = new Set([
   '/server.js',
   '/package.json',
   '/package-lock.json',
+  '/bun.lock',
   '/metadata.json',
 ]);
 

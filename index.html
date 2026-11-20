@@ -1,7 +1,7 @@
+<!DOCTYPE html>
 <title>DDYK</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="claude:viewport-fit-sides" content="cover">
 <!-- Google Tag Manager. The official loader: the dataLayer push has to happen
      BEFORE gtm.js runs, because the gtm.js event is what fires All Pages triggers. -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -552,10 +552,10 @@ body.dragging{-webkit-user-select:none; user-select:none}
 <meta name="twitter:image" content="https://ishowkot.github.io/ddyk/share.png">
 <meta property="og:site_name" content="DDYK">
 <meta property="og:title" content="Designer, did you know?">
-<meta property="og:description" content="Slug, breadcrumb, dashboard, boilerplate. Every interface word was something real first. What is your DDYK score?">
+<meta property="og:description" content="Slug, breadcrumb, dashboard, boilerplate. Every interface word was something real first. 36 of them, in clay.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Designer, did you know?">
-<meta name="twitter:description" content="Every interface word was something real first. What is your DDYK score?">
+<meta name="twitter:description" content="Every interface word was something real first. 36 of them, in clay.">
 <meta name="description" content="Where the words designers use every day actually came from. 36 of them, in clay.">
 <canvas id="gl" aria-hidden="true"></canvas>
 <p class="crush" id="crush" role="status" hidden></p>
@@ -647,7 +647,7 @@ const TERMS = [
 /* ---------- demos ---------- */
 const DEMOS = {
 spline:{html:`<p class="d-note" style="margin:0 0 10px">Drag the round handles. The curve between them is worked out for you \u2014 the same job the wooden strip did.</p>
-<svg viewBox="0 0 320 150" style="width:100%;height:auto;display:block;touch-action:none" aria-label="A curve with three draggable control points">
+<svg viewBox="0 0 320 150" style="width:100%;height:auto;display:block;touch-action:none" aria-label="A curve with four draggable control points">
  <path id="sp-path" fill="none" stroke="#A8513F" stroke-width="3" stroke-linecap="round"/>
  <g id="sp-pts"></g></svg>`,
  init(r){const P=[[26,116],[112,44],[208,112],[296,40]];
@@ -678,7 +678,7 @@ cursor:{html:`<div style="font:600 16px/1.5 ui-monospace,monospace;background:#F
 scroll:{html:`<div id="sc-box" style="height:148px;overflow:auto;background:#FBF7ED;border:2px solid #D8CBB0;border-radius:8px;padding:12px 14px;font:400 15px/1.6 Georgia,serif;color:#4A3B2A"></div>
 <p class="d-note">That bar on the right is the only part of a scroll we kept visible: it shows how much roll is left.</p>`,
  init(r){const box=r.querySelector("#sc-box");
-  const L=["A scroll is read by unrolling.","Rods at each end, a window between them.","The codex \u2014 the bound book \u2014 replaced it around the first century, because you can open a book at a page.","A screen cannot open at a page. So the scroll came back.","Your thumb is turning a rod.","Everything above this line was once a different shape of paper."];
+  const L=["A scroll is read by unrolling.","Rods at each end, a window between them.","The codex \u2014 the bound book \u2014 emerged in the first century and replaced it over the next few centuries, because you can open a book at a page.","A screen cannot open at a page. So the scroll came back.","Your thumb is turning a rod.","Everything above this line was once a different shape of paper."];
   box.innerHTML=L.map(t=>`<p style="margin:0 0 12px">${t}</p>`).join("")}},
 palette:{html:`<div id="pa-sw" class="d-row" style="gap:8px;flex-wrap:wrap"></div>
 <div id="pa-card" style="margin-top:12px;border-radius:10px;padding:16px;background:#1F4E8C;color:#fff;transition:background .25s">
@@ -738,9 +738,9 @@ login:{html:`<div class="d-row"><button class="d-btn on" id="li-go">Heave the lo
    n.textContent=rows.length?rows.length+" entries":"no entry"};
   g.onclick=()=>{if(rows.length>=5)rows=[];
    rows.push(String(rows.length+1).padStart(2,"0")+":00 \u2014 "+(5+Math.floor(Math.random()*5))+" knots");draw()};draw()}},
-shift:{html:`<div class="d-row"><button class="d-btn" id="sh-k">Hold Shift</button><span class="ctl-out" id="sh-s">basket down</span></div><p class="sh-out" id="sh-out">handgloves</p><p class="d-note">One key, and every other key gained a second character. The basket is gone but the bargain is the same.</p>`,
+shift:{html:`<div class="d-row"><button class="d-btn" id="sh-k">Hold Shift</button><span class="ctl-out" id="sh-s">basket up</span></div><p class="sh-out" id="sh-out">handgloves</p><p class="d-note">One key, and every other key gained a second character. The basket is gone but the bargain is the same.</p>`,
  init(r){const b=r.querySelector("#sh-k"),o=r.querySelector("#sh-out"),st=r.querySelector("#sh-s");
-  const set=u=>{o.textContent=u?"HANDGLOVES":"handgloves";st.textContent=u?"basket up":"basket down";
+  const set=u=>{o.textContent=u?"HANDGLOVES":"handgloves";st.textContent=u?"basket down":"basket up";
     b.classList.toggle("on",u)};
   b.addEventListener("pointerdown",()=>set(true));
   ["pointerup","pointerleave","pointercancel"].forEach(e=>b.addEventListener(e,()=>set(false)));
@@ -874,7 +874,7 @@ toggle:{html:`<div class="ctl"><div class="ctl-row"><span>Keep the porch light o
   w.innerHTML=S.map((s,i)=>`<label class="rb-opt"><input type="radio" name="st" value="${i}"${i===2?" checked":""}><span>${s}</span></label>`).join("")}}
 };
 
-const PEBBLE={breadcrumb:"#D7A35E",slug:"#E2B23E",accordion:"#C4553E",hamburger:"#B97B42",kebab:"#A8513F",toast:"#E3BC6C",carousel:"#7DA2BC",cookie:"#C98B45","lorem-ipsum":"#B8AE9E",leading:"#848C96",gutter:"#8FAE91","above-the-fold":"#CFC6B4",kerning:"#8F969E","case":"#9A7446",boilerplate:"#7E868F","cut-paste":"#D3C8B1","dodge-burn":"#4E4844",dashboard:"#9A7446",bug:"#8A7A5E",spam:"#6F8595",bluetooth:"#8A8F96",brand:"#C9A06B",logo:"#878E96",grotesk:"#9A8E78",miniature:"#C0362A",portfolio:"#7A4B2C",cliche:"#8A9199",login:"#5E7E8C",shift:"#2E2A26"};
+const PEBBLE={breadcrumb:"#D7A35E",slug:"#E2B23E",accordion:"#C4553E",hamburger:"#B97B42",kebab:"#A8513F",toast:"#E3BC6C",carousel:"#7DA2BC",cookie:"#C98B45","lorem-ipsum":"#B8AE9E",leading:"#848C96",gutter:"#8FAE91","above-the-fold":"#CFC6B4",kerning:"#8F969E","case":"#9A7446",boilerplate:"#7E868F","cut-paste":"#D3C8B1","dodge-burn":"#4E4844",dashboard:"#9A7446",bug:"#8A7A5E",spam:"#6F8595",bluetooth:"#8A8F96",brand:"#C9A06B",logo:"#878E96",grotesk:"#9A8E78",miniature:"#C0362A",portfolio:"#7A4B2C",cliche:"#8A9199",login:"#5E7E8C",shift:"#2E2A26",button:"#C4553E",toggle:"#8FAE91","radio-button":"#6D7682",spline:"#8B6F4E",cursor:"#C59B45",scroll:"#D6C198",palette:"#A57244"};
 
 const SHORT={"breadcrumb": ["In the Grimms\u2019 tale (1812) the children are left deep in the forest twice. The first night Hansel marks the way with white pebbles and they walk home. The second he has only bread, and ==birds eat every crumb==. Website breadcrumbs are the version birds can\u2019t eat.", "A trail of links like Home / Shop / Shoes that shows where you are and lets you hop back up a level."], "slug": ["Newspaper editors gave every story a one- or two-word nickname, its slug, so it could be tracked through the newsroom. In hot-metal printing, a slug was also ==a whole line of type cast as one metal bar==. No garden creatures were involved.", "The readable name at the end of a link, like /why-is-it-called-a-slug. WordPress still calls it a slug."], "accordion": ["Cyrill Demian patented the accordion in ==Vienna in 1829==, naming it after the German word Akkord, meaning chord. Its bellows fold flat and stretch open. The UI does the same thing, minus the polka.", "Headings that open to show more, then fold away when you’re done."], "hamburger": ["Norm Cox drew three stacked lines for the Xerox Star in 1981 to look like a list of menu items. Decades later the internet saw ==a bun, a patty and a bun==, and the name stuck.", "The ☰ button that hides the menu until you tap it."], "kebab": ["Three dots stacked up look like ==meat on a skewer==. Turn them sideways and they’re meatballs. A 3×3 grid of dots is a bento. Nobody knows who named them first, only that they were hungry.", "The ⋮ button with more actions for one item: rename, share, delete. Google’s docs call it an overflow menu."], "toast": ["Like bread in a toaster, it pops up, does its job and drops back out of sight. Android has shipped a widget literally called ==Toast== since its first release in 2008. No butter included.", "A short message like “Saved” that appears for a moment and leaves on its own."], "carousel": ["In the 1600s, a carosello was a ==cavalry show where riders circled an arena==. Fairground rides with wooden horses took the name. Web carousels go round too, though few people stay on for the whole ride.", "A set of slides that come round one at a time, with arrows or swipes."], "cookie": ["Programmers had long called a small token passed between programs a ==magic cookie==. In 1994, Lou Montulli at Netscape borrowed it so websites could remember visitors. No crumbs, but it does remember your cart.", "A tiny note a site saves in your browser so it recognises you next time."], "lorem-ipsum": ["It comes from Cicero’s De finibus, written in 45 BC. The original phrase is “dolorem ipsum”, ==“pain itself”==, chopped mid-word. Designers have been filling layouts with pain itself ever since.", "Placeholder text that holds a layout until the real words arrive. Ship it by mistake and someone will notice."], "leading": ["Say ==“ledding”==, like the metal. Typesetters slid thin strips of lead between lines of metal type to space them out. More lead, more breathing room.", "The space between lines of text. In CSS, it’s line-height."], "gutter": ["In bookbinding, the gutter is the ==inner margin where the pages meet the spine==, a channel like a rain gutter between two roofs. Put words too close and they vanish into the binding.", "The gap between columns in a grid. In CSS, it’s column-gap."], "above-the-fold": ["Broadsheet newspapers were ==sold folded in half==, so only the top half showed on the stand. Editors put the biggest headline above the fold to make you buy. Web pages don’t fold, but the name stuck.", "Everything you see before you scroll."],"button":["It comes from Old French bouton, a bud, from bouter, to push — a bud is the bit that pushes out of the stem. Tailors took it for the knob on a coat, machines for the knob you press. So ==“push button” says push twice==.","The control you press to make one thing happen. Name it for the action: Save, not Submit."],"toggle":["Two origins, both true. The word is the sailor\u2019s toggle, a ==short bar pushed through a loop== to fasten it, the same thing on a duffel coat. The snap is John Henry Holmes\u2019s ==quick-break switch of 1884==, which used a spring so the contacts flew apart and never arced. Name from the bar, click from the spring.","A switch with two states and no third. It takes effect at once, so it needs no Save button."],"miniature":["It has ==nothing to do with size==. A ==minium== was red lead, the pigment illuminators used for the initials and the little paintings in a manuscript. Work done in minium was a miniatura. The pictures happened to be small, everyone drew the wrong conclusion, and the wrong conclusion is now the only meaning.","A very small version of something. Named after a colour, by accident."],
 "portfolio":["Italian portare foglio: ==carry leaves==. It was a flat case you put loose sheets in and took to the person who might hire you. Not a book, because the order had to change for every meeting. The format is still loose sheets, shown one at a time.","The work you show, and the order you show it in. The second part is the part people forget."],
@@ -890,7 +890,7 @@ const SHORT={"breadcrumb": ["In the Grimms\u2019 tale (1812) the children are le
 "bug":["On ==9 September 1947== operators pulled a moth from relay 70 of the Harvard Mark II and taped it into the logbook: \u201cFirst actual case of bug being found.\u201d It is the best story in computing and it is not the origin. Edison was writing about ==bugs in his machines in 1878==. The moth did not name the bug \u2014 it just got taped into the right notebook.","A defect: something the system does that nobody designed. The joke in the logbook was that this time it was literal."],
 "cut-paste":["Before layout software, a designer built a page with scissors and a pot of rubber cement. You printed the type, cut the column into strips, and pasted them onto a board until the page looked right. That board went to the printer. ==Ctrl+X is still a pair of scissors==.","Moving text or an object out of one place and into another. The clipboard is the gap in between \u2014 the moment it is in your hand and on neither page."],
 "dodge-burn":["Two moves you made with your hands under a darkroom enlarger. Dodging holds light back from part of the print with a paddle on a wire, so it comes out lighter. Burning gives one area extra seconds of light through a hole in a card, so it comes out darker. ==Photoshop\u2019s two icons are those exact tools==.","The pair that lighten or darken one part of an image and leave everything else alone."],
-"kerning":["A kern was the part of a letter that ==hung off the edge of its own metal body==, so the next letter could tuck underneath. The word is French carne, a projecting corner. To kern a pair, a compositor filed the metal away \u2014 the original destructive edit.","Adjusting the space between two specific letters. Tracking moves them all; kerning fixes the one pair that looks wrong."],
+"kerning":["A kern was the part of a letter that ==hung off the edge of its own metal body==, so the next letter could tuck underneath. The word is French carne, a projecting corner. Most kerns were cast that way by the typefounder, though for stubborn display pairs a compositor filed or cut the metal away \u2014 the original destructive edit.","Adjusting the space between two specific letters. Tracking moves them all; kerning fixes the one pair that looks wrong."],
 "case":["A compositor worked from two wooden trays on a slanted rack. Capitals, needed rarely, sat in the upper tray. Everything else sat in the lower one, within reach \u2014 and its compartments were ==sized by how often you need the letter==, so e got a big box and z got a crumb.","text-transform. ALL CAPS loses the shape a word makes, so it reads slower. Save it for two or three words."],
 "boilerplate":["From the 1890s, syndicates mailed ready-to-print columns and ads to small newspapers as solid curved metal plates, already cast and impossible to edit. Printers named them after the ==thick riveted sheets used to build steam boilers== \u2014 same look, same refusal to change shape.","Text you reuse without rewriting: terms, licences, the paragraph in every contract. Also the starter code nobody reads."],
 "spline":["Before it was maths, a spline was a strip of wood. Shipwrights laid it on the loft floor, pinned it at the points the hull had to pass through, and weighted it down with lead blocks ==cast in the shape of ducks==, which is what everyone called them. Left alone, the wood settled into the smoothest curve it could make, and you traced along it. ==The Wright brothers shaped their wings this way.==","A curve drawn through a few control points, smooth everywhere in between. Every pen tool and every easing curve you pull on is one, still doing the wooden strip\u2019s job."],
@@ -992,7 +992,16 @@ const LINK={
   if(o&&o.pick)o.pick(b.dataset.t!=="lowercase")}))},
  boilerplate(r){const b=r.querySelector("#bp-add");if(b)b.addEventListener("click",()=>{const o=UO();if(o&&o.go)o.go(nowS())})},
  "radio-button"(r){const f=()=>{const i=[...r.querySelectorAll("input")].findIndex(x=>x.checked),o=UO();if(o&&o.setStation)o.setStation(i<0?0:i,true)};r.addEventListener("change",()=>{const i=[...r.querySelectorAll("input")].findIndex(x=>x.checked),o=UO();if(o&&o.setStation)o.setStation(i<0?0:i)});f()},
- scroll(r){const b=r.querySelector("#sc-box"),f=()=>{const o=UO();o&&o.setP&&o.setP(b.scrollTop/Math.max(1,b.scrollHeight-b.clientHeight),nowS())};b.addEventListener("scroll",f);f()}
+ scroll(r){const b=r.querySelector("#sc-box"),f=()=>{const o=UO();o&&o.setP&&o.setP(b.scrollTop/Math.max(1,b.scrollHeight-b.clientHeight),nowS())};b.addEventListener("scroll",f);f()},
+ spline(r){const svg=r.querySelector("svg"),sync=()=>{const o=UO(),cs=[...r.querySelectorAll("#sp-pts circle")];if(!o||!o.setCurve||cs.length<4)return;
+  const ys=cs.map(c=>clamp((+c.getAttribute("cy")-75)/75*.68,-.52,.72));
+  o.setCurve(ys[1],(ys[1]+ys[2])*.5,ys[2],nowS())};
+  svg.addEventListener("pointermove",sync);svg.addEventListener("pointerup",sync);sync()},
+ cursor(r){const a=r.querySelector("#cu-a"),b=r.querySelector("#cu-b"),f=()=>{const o=UO();if(!o||!o.setU)return;
+  const tot=Math.max(1,(a.textContent.length+b.textContent.length));o.setU(a.textContent.length/tot,nowS())};
+  r.querySelectorAll("[data-d]").forEach(btn=>btn.addEventListener("click",()=>setTimeout(f,0)));f()},
+ palette(r){const sw=r.querySelector("#pa-sw");if(!sw)return;
+  sw.addEventListener("click",e=>{const b=e.target.closest("[data-h]");if(!b)return;const o=UO();if(o&&o.dab)o.dab(b.dataset.h,nowS())})}
 };
 const GENUI={};
 function uiDemo(id){if(UIDEMO[id])return UIDEMO[id];if(!GENUI[id]){const d=DEMOS[id];GENUI[id]={low:true,keep:KEEP_TOP,html:d.html,init(r){d.init(r);LINK[id]&&LINK[id](r)}}}return GENUI[id]}
@@ -2955,7 +2964,7 @@ function makeShift(){
     pxc.fillStyle="#1d1a17";pxc.font="900 150px Courier,monospace";pxc.textAlign="center";pxc.textBaseline="middle";
     pxc.fillText(up?"A":"a",210,170);
     pxc.font="700 24px ui-monospace,monospace";pxc.fillStyle="#8d8473";
-    pxc.fillText(up?"basket up":"basket down",210,268);PP.needsUpdate=true}
+    pxc.fillText(up?"basket down":"basket up",210,268);PP.needsUpdate=true}
   const pap=clay("#EFE9DA");
   const sheet3=new THREE.Mesh(new THREE.BoxGeometry(1.3,.02,.95),
     [pap,pap,new THREE.MeshStandardMaterial({map:PP,roughness:.95}),pap,pap,pap]);
@@ -3031,6 +3040,10 @@ function makeSpline(){
   return mkObj(root,{hint:"Drag the middle duck. The batten finds its own fair curve.",camDir:SPLCAM,camLook:new THREE.Vector3(0,.18,0),camK:1.14,gridK:1.52,z:0,traced:0,creak:0,
     reshape(){pts.forEach((p,i)=>p.set(XS[i],Y,ZS[i]));curve.points=pts;bend();
       ducks.forEach((d,i)=>{d.position.z=ZS[i+1]+.135})},
+    setCurve(z1,z2,z3,now){const was=ZS[1]+ZS[2]+ZS[3];
+      ZS[1]=clamp(z1,-.52,.72);ZS[2]=clamp(z2,-.52,.72);ZS[3]=clamp(z3,-.52,.72);
+      if(Math.abs(ZS[1]+ZS[2]+ZS[3]-was)>.003){this.reshape();
+        if(now-this.creak>.14){this.creak=now;bloop(190+Math.abs(ZS[2])*110,150,.07,.045)}}},
     pmove(dx,dy,now){const was=ZS[2];
       ZS[2]=clamp(ZS[2]-dy*2.2+dx*.5,-.52,.72);
       ZS[1]=ZS[3]=ZS[2]*.64;
@@ -3219,22 +3232,25 @@ function makePalette(){
     const t=Math.sqrt(d0)/Math.max(.0001,Math.sqrt(d0)+Math.sqrt(d1));
     return C.copy(A).lerp(B,t*.9)};
   return mkObj(root,{hint:"Drag across it to mix. The hole is for your thumb.",camDir:PALCAM,camLook:new THREE.Vector3(0,.22,0),gridK:1.42,x:-.1,z:.05,n:0,wet:0,sq:0,
-    mix(nx,nz,now){const dx=nx-this.x,dz=nz-this.z;
+    mix(nx,nz,now,col){const dx=nx-this.x,dz=nz-this.z;
       this.x=clamp(nx,-.95,1.0);this.z=clamp(nz,-.78,.8);
-      if(dx*dx+dz*dz<.0005)return;
+      if(!col&&dx*dx+dz*dz<.0005)return;
       const m=smears[this.n%SM];this.n++;
-      m.visible=true;m.material.color.copy(blend(this.x,this.z));
+      m.visible=true;m.material.color.copy(col?C.set(lin(col)):blend(this.x,this.z));
       m.position.set(this.x,TOP-.055,this.z);
       const s=.5+Math.random()*.7;m.scale.set(s,.16,s*.8);m.rotation.y=Math.random()*3;
       this.wet=1;
       if(now-this.sq>.17){this.sq=now;squelch()}},
-    pmove(dx,dy,now){this.mix(this.x+dx*2.6,this.z+dy*2.6,now||0)},
-    react(time){if(this.age(time)<1.3)return;this.reactAt=time;
+    dab(hex,now){const p=PAINTS.find(q=>q.c.toLowerCase()===hex.toLowerCase())||PAINTS[this.n%PAINTS.length];
+      this.tx=p.x*.55+(Math.random()-.5)*.22;this.tz=p.z*.55+(Math.random()-.5)*.22;this.tCol=hex;
+      this.mix(this.tx,this.tz,now||0,hex)},
+    pmove(dx,dy,now){this.tCol=null;this.mix(this.x+dx*2.6,this.z+dy*2.6,now||0)},
+    react(time){if(this.age(time)<1.3)return;this.reactAt=time;this.tCol=null;
       this.tx=-.5+Math.random()*1.2;this.tz=-.5+Math.random()*1.1},
     tick(time){const dt=this.dt(time);
       if(this.tx!=null){const nx=toward(this.x,this.tx,3,dt),nz=toward(this.z,this.tz,3,dt);
-        this.mix(nx,nz,time);
-        if(Math.abs(nx-this.tx)<.02&&Math.abs(nz-this.tz)<.02){this.tx=null;this.tz=null}}
+        this.mix(nx,nz,time,this.tCol);
+        if(Math.abs(nx-this.tx)<.02&&Math.abs(nz-this.tz)<.02){this.tx=null;this.tz=null;this.tCol=null}}
       this.wet=toward(this.wet,0,1.4,dt);
       /* the brush follows your mixing, lifting while you work */
       brush.position.set(this.x,TOP+.03+this.wet*.07,this.z);
@@ -3339,7 +3355,7 @@ function pullTo(d){
     if(isVader){
       VADER.show=true;SHIP.show=false;
       if(!VADER.open){VADER.open=true;vaderOpen()}
-      if(deepEnough)edgeSay(skyEl,"May the AI be with you.",false);
+      edgeSay(skyEl,"May the AI be with you.",false);
     }else if(isShip){
       VADER.show=false;SHIP.show=true;
       if(!SHIP.open){SHIP.open=true;shipOpen()}
@@ -3349,13 +3365,13 @@ function pullTo(d){
       edgeSay(skyEl,"",false);
     }else{
       VADER.show=false;SHIP.show=false;
-      if(deepEnough)edgeSay(skyEl,stage>=1?"…fine, there’s this.":"There’s nothing up here.",stage>=1);
+      edgeSay(skyEl,stage>=1?"…fine, there’s this.":"There’s nothing up here.",stage>=1&&deepEnough);
     }
   }else{
     VADER.show=false;SHIP.show=false;
     soilEl.classList.add("on");skyEl.classList.remove("on","deep","vader","space");
     if(!MINE.open){MINE.open=true;mineOpen()}
-    if(deepEnough)edgeSay(soilEl,PULL.bot>=1?"Not yet.":"Nothing down here either.",PULL.bot>=1);
+    edgeSay(soilEl,PULL.bot>=1?"Not yet.":"Nothing down here either.",PULL.bot>=1&&deepEnough);
   }
   return true;
 }
@@ -3458,7 +3474,7 @@ function vaderSound(){
   const t=AC.currentTime;
   /* lightsaber snap-hiss + low hum */
   const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();
-  s.buffer=NOISE;f.type="bandpass";f.Q.value=3.2;
+  s.buffer=NOISE;s.loop=true;f.type="bandpass";f.Q.value=3.2;
   f.frequency.setValueAtTime(650,t);f.frequency.exponentialRampToValueAtTime(2200,t+.16);
   f.frequency.exponentialRampToValueAtTime(420,t+.42);
   g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.22,t+.03);
@@ -3473,7 +3489,7 @@ function vaderSound(){
   o.connect(lp).connect(og).connect(AC.destination);o.start(t);o.stop(t+.64);
   /* mechanical breath exhale */
   const b=AC.createBufferSource(),bf=AC.createBiquadFilter(),bg=AC.createGain();
-  b.buffer=NOISE;bf.type="bandpass";bf.Q.value=5;
+  b.buffer=NOISE;b.loop=true;bf.type="bandpass";bf.Q.value=5;
   bf.frequency.setValueAtTime(460,t+.46);bf.frequency.exponentialRampToValueAtTime(300,t+.92);
   bg.gain.setValueAtTime(.0001,t+.46);bg.gain.exponentialRampToValueAtTime(.14,t+.56);
   bg.gain.exponentialRampToValueAtTime(.0001,t+.95);
@@ -3627,7 +3643,7 @@ function shipSound(){
   const t=AC.currentTime;
   /* twin-ion engine roar + Doppler pitch-down receding into space */
   const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();
-  s.buffer=NOISE;f.type="bandpass";f.Q.value=2.1;
+  s.buffer=NOISE;s.loop=true;f.type="bandpass";f.Q.value=2.1;
   f.frequency.setValueAtTime(1150,t);f.frequency.exponentialRampToValueAtTime(190,t+1.45);
   g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.19,t+.09);
   g.gain.exponentialRampToValueAtTime(.0001,t+1.5);
@@ -4533,8 +4549,15 @@ function updateCursor(){
   if(P.drag&&P.view.obj.drag!=="hold"){stage.style.cursor="grabbing";return}
   stage.style.cursor=P.view.obj.drag==="hold"?"pointer":leafOn()?"none":"";
 }
+function unmountUI(){
+  const box=uil.querySelector(".ui-box");
+  if(!box)return;
+  if(typeof box.cleanup==="function"){try{box.cleanup()}catch(e){}box.cleanup=null}
+  box.dispatchEvent(new CustomEvent("ddyk-unmount"));
+}
 function resetMode(){
   ACC.silence(true);
+  unmountUI();
   P.mode="real";P.mt=0;P.anchor=null;P.typed=false;P.leaf=false;P.bites=0;P.leafGone=false;
   uil.hidden=true;uil.innerHTML="";uil.classList.remove("out","low");uil.style.paddingTop="";stage.classList.remove("ui","low");$("#hint").hidden=false;
   seg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m==="real"));updateCursor();
@@ -4545,10 +4568,12 @@ function setMode(m){
   stage.classList.toggle("ui",m==="ui");$("#hint").hidden=m==="ui";
   if(P.view&&P.view.obj.setFull)P.view.obj.setFull(m==="real");
   if(m==="ui"){
+    unmountUI();
     const d=uiDemo(P.cur);uil.classList.toggle("low",!!d.low);stage.classList.toggle("low",!!d.low);uil.innerHTML=`<div class="ui-box">${d.html}</div>`;uil.classList.remove("out");uil.hidden=false;
     d.init(uil.querySelector(".ui-box"));P.anchor=uil.querySelector("[data-anchor]");P.typed=false;P.target=null;P.leaf=false;P.drag=null;
     bloop(600,360,.14,.1);
   }else{
+    unmountUI();
     if(P.anchor){P.anchor.__stop&&P.anchor.__stop();P.anchor.classList.remove("typed");P.anchor.textContent=""}
     uil.classList.add("out");stage.classList.remove("low");setTimeout(()=>{if(P.mode==="real"){uil.hidden=true;uil.innerHTML="";uil.classList.remove("out","low");uil.style.paddingTop=""}},280);
     bloop(360,640,.14,.1);
