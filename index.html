@@ -464,13 +464,6 @@ body.ovl .corner{opacity:0; pointer-events:none}
 .qz-x2{background:var(--card); color:var(--ink)}
 .qz-n{background:var(--card); color:var(--ink)}
 @media (max-width:760px){ .qz{left:12px; right:12px; bottom:84px; width:auto} }
-/* the verdict: thrown, not clicked */
-.stamp{position:fixed; top:18%; z-index:62; pointer-events:none; opacity:0; margin:0;
-  font-weight:900; font-size:20px; line-height:1.1; padding:9px 15px; border-radius:13px;
-  border:3px solid currentColor; background:color-mix(in srgb, var(--paper) 88%, transparent)}
-.stamp.l{left:20px; color:#9A6B12; transform:rotate(-13deg)}
-.stamp.r{right:20px; color:var(--ink); transform:rotate(13deg)}
-.q-knew{margin:10px 0 0; font-family:var(--mono); font-size:13px; color:var(--ink-2)}
 .crush{position:fixed; left:50%; bottom:calc(22px + env(safe-area-inset-bottom,0px));
   transform:translate(-50%,14px); z-index:70; margin:0; text-align:center;
   font-weight:850; font-size:clamp(16px,4.4vw,20px); line-height:1.25; color:var(--ink); background:var(--paper);
@@ -578,8 +571,6 @@ body.dragging{-webkit-user-select:none; user-select:none}
   <div class="stage" id="stage"><div class="seg" role="group" aria-label="View"><button data-m="real" aria-pressed="true">Real</button><button data-m="ui" aria-pressed="false">In UI</button></div><div class="ui-layer" id="uil" hidden></div><span class="hint" id="hint"></span></div>
   <div class="words" id="words"></div>
   <button class="x" id="x" aria-label="Close">×</button>
-  <p class="stamp l" id="st-l" aria-hidden="true">News to me</p>
-  <p class="stamp r" id="st-r" aria-hidden="true">Knew it</p>
 </div>
 
 <script src="three.min.js"></script>
@@ -969,7 +960,8 @@ const LINK={
  "case"(r){r.querySelectorAll(".d-btn").forEach(b=>b.addEventListener("click",()=>{const o=UO();
   if(o&&o.pick)o.pick(b.dataset.t!=="lowercase")}))},
  boilerplate(r){const b=r.querySelector("#bp-add");if(b)b.addEventListener("click",()=>{const o=UO();if(o&&o.go)o.go(nowS())})},
- "radio-button"(r){const f=()=>{const i=[...r.querySelectorAll("input")].findIndex(x=>x.checked),o=UO();if(o&&o.setStation)o.setStation(i<0?0:i,true)};r.addEventListener("change",()=>{const i=[...r.querySelectorAll("input")].findIndex(x=>x.checked),o=UO();if(o&&o.setStation)o.setStation(i<0?0:i)});f()}
+ "radio-button"(r){const f=()=>{const i=[...r.querySelectorAll("input")].findIndex(x=>x.checked),o=UO();if(o&&o.setStation)o.setStation(i<0?0:i,true)};r.addEventListener("change",()=>{const i=[...r.querySelectorAll("input")].findIndex(x=>x.checked),o=UO();if(o&&o.setStation)o.setStation(i<0?0:i)});f()},
+ scroll(r){const b=r.querySelector("#sc-box"),f=()=>{const o=UO();o&&o.setP&&o.setP(b.scrollTop/Math.max(1,b.scrollHeight-b.clientHeight),nowS())};b.addEventListener("scroll",f);f()}
 };
 const GENUI={};
 function uiDemo(id){if(UIDEMO[id])return UIDEMO[id];if(!GENUI[id]){const d=DEMOS[id];GENUI[id]={low:true,keep:KEEP_TOP,html:d.html,init(r){d.init(r);LINK[id]&&LINK[id](r)}}}return GENUI[id]}
@@ -3173,18 +3165,18 @@ function makeScroll(){
   const top=mkRoll(),bot=mkRoll();g.add(top.g);g.add(bot.g);
   root.add(blob(2.0,1.0,.3));
   const lay=p=>{
-    /* the parchment moves from one roller to the other: one fattens as the other thins */
-    const rT=.07+(1-p)*.17,rB=.07+p*.17;
+    /* parchment starts coiled on the bottom bar and unrolls from it onto the top bar as you scroll down */
+    const rT=.07+p*.17,rB=.07+(1-p)*.17;
     top.barrel.scale.set(rT,1,rT);bot.barrel.scale.set(rB,1,rB);
     top.g.position.y=SH/2+rT;bot.g.position.y=-SH/2-rB;
     top.g.rotation.x=-p*(TOT-SH)/.17*.5;bot.g.rotation.x=top.g.rotation.x;
     TXT.offset.y=(1-REP)*(1-p);
   };
   lay(0);
-  return mkObj(root,{hint:"Drag it up and down. You have been unrolling one of these all day.",camDir:SCRCAM,camLook:SCRLOOK,gridK:1.52,p:0,rust:0,
+  return mkObj(root,{hint:"Drag down to unroll it. You have been unrolling one of these all day.",camDir:SCRCAM,camLook:SCRLOOK,gridK:1.52,p:0,rust:0,
     setP(v,now){const was=this.p;this.p=clamp(v,0,1);lay(this.p);
       if(Math.abs(this.p-was)>.02&&(now-this.rust)>.2){this.rust=now;crunch()}},
-    pmove(dx,dy,now){this.setP(this.p-dy*1.25,now||0)},
+    pmove(dx,dy,now){this.setP(this.p+dy*1.25,now||0)},
     react(time){if(this.age(time)<1.5)return;this.reactAt=time;this.goal=this.p>.5?0:Math.random()*.5+.45},
     tick(time){const dt=this.dt(time);
       if(this.goal!=null){const n=toward(this.p,this.goal,2.6,dt);this.setP(n,time);
@@ -3368,7 +3360,7 @@ function pullRelease(){
 }
 function pullTick(now,dt){
   PULL.y=toward(PULL.y,PULL.yT,10,dt);
-  if(Math.abs(PULL.y)<.4&&PULL.yT===0){PULL.y=0;if(PULL.side&&now>PULL.rel){PULL.side=0;MINE.open=false;edgeOff()}}
+  if(Math.abs(PULL.y)<.4&&PULL.yT===0){PULL.y=0;MINE.open=false;if(PULL.side&&now>PULL.rel){PULL.side=0;edgeOff()}}
 
   const a=Math.min(1,Math.abs(PULL.y)/110);
   (PULL.side>0?skyEl:soilEl).style.setProperty("--a",a.toFixed(3));
@@ -3450,7 +3442,7 @@ addEventListener("touchend",e=>{
 },{passive:true});
 
 /* ================= the miner: caught digging toward the words that are not made yet ================= */
-const MINE={v:null,mode:"busy",t:0,open:false,loot:0};
+const MINE={v:null,mode:"busy",t:0,open:false,loot:0,raiders:false};
 const MINECAM=new THREE.Vector3(.1,.55,7.2);
 function buildPick(){
   const p=new THREE.Group();
@@ -3509,12 +3501,12 @@ function buildMine(){
       new THREE.MeshStandardMaterial({color:lin(a),emissive:lin(b2),emissiveIntensity:1.5,
         roughness:.05,metalness:.35,flatShading:true}));
       c.position.set(x,y,z);c.rotation.set(r,r*1.6,r*.4);c.scale.set(1,1.75,1);
-      c.userData.ph=Math.random()*6.283;seam.add(c);return c});
+      c.userData.ph=Math.random()*6.283;c.userData.gemIdx=g;seam.add(c);return c});
   /* loose gems spilled on the tunnel floor */
-  [[-.9,-.34,.5,1],[-1.3,-.34,.2,3],[.9,-.34,.55,2],[-.6,-.34,.72,4]].forEach(([x,y,z,g])=>{
+  const GEMS_FLOOR=[[-.9,-.34,.5,1],[-1.3,-.34,.2,3],[.9,-.34,.55,2],[-.6,-.34,.72,4]].map(([x,y,z,g])=>{
     const[a,b2]=GEM[g];const c=new THREE.Mesh(new THREE.OctahedronGeometry(.06,0),
       new THREE.MeshStandardMaterial({color:lin(a),emissive:lin(b2),emissiveIntensity:1.1,roughness:.05,metalness:.35,flatShading:true}));
-    c.position.set(x,y,z);c.rotation.set(1,g,.4);seam.add(c)});
+    c.position.set(x,y,z);c.rotation.set(1,g,.4);c.userData.gemIdx=g;seam.add(c);return c});
   /* the glow they throw on the rock, and sparkles that catch */
   const GLOWTEX=ctex(128,128,(c,W,H)=>{const g=c.createRadialGradient(64,64,0,64,64,64);
     g.addColorStop(0,"rgba(255,210,235,.95)");g.addColorStop(.35,"rgba(240,140,200,.40)");
@@ -3530,6 +3522,11 @@ function buildMine(){
     m.position.set((Math.random()-.5)*1.1,.1+Math.random()*.8,.26);m.userData.ph=i*.77;seam.add(m);return m});
   /* a light of their own, so the tunnel end is the brightest thing down here */
   const seamLight=new THREE.PointLight(0xFFB4DC,2.6,7,2);seamLight.position.set(.1,.5,.9);seam.add(seamLight);
+  /* gold: some was always here, more arrives on the first scatter, and stragglers keep sneaking back for it */
+  const GOLDM=new THREE.MeshStandardMaterial({color:lin("#E9B53C"),emissive:lin("#4A3200"),emissiveIntensity:.35,roughness:.28,metalness:.7});
+  const COIN_GEO=new THREE.CylinderGeometry(.075,.075,.018,14);
+  const CARRY_GEM_GEO=new THREE.OctahedronGeometry(.11,0);
+  function mkCoin(){return new THREE.Mesh(COIN_GEO,GOLDM)}
   /* ---- the goblins ---- */
   /* Nobody sensible is down here. Goblins are, and they would rather you had not looked. */
   const GOB_SKIN=["#7E9B4C","#6E8C42","#8AA557","#67853C"];
@@ -3555,7 +3552,20 @@ function buildMine(){
       const p=ball(.026,"#1C1813");p.position.set(sg*.092,.485,.19);G.add(p);return e});
     const mouth=box(.1,.02,.02,"#2B2018",{bumpScale:0});mouth.position.set(0,.375,.165);G.add(mouth);
     const arms=[-1,1].map(sg=>{const a2=rbox(.075,.14,.08,.035,skin);a2.position.set(sg*.165,.22,.02);G.add(a2);return a2});
-    G.userData={legs,ears,eyes,arms,head,mouth,sh};
+    /* carried loot held out between the arms when stragglers raid the cave */
+    const carry=new THREE.Group();carry.position.set(0,.27,.22);G.add(carry);
+    const carryCoin=new THREE.Group();carryCoin.visible=false;
+    [[0,0,0,.35],[.03,.032,-.01,.48],[-.025,.06,.01,.28]].forEach(([cx,cy,cz,rx])=>{
+      const cc=new THREE.Mesh(COIN_GEO,GOLDM);cc.scale.setScalar(1.38);
+      cc.position.set(cx,cy,cz);cc.rotation.set(rx,cx*8,cz*6);carryCoin.add(cc);
+    });
+    carry.add(carryCoin);
+    const carryGemMat=new THREE.MeshStandardMaterial({color:lin(GEM[0][0]),emissive:lin(GEM[0][1]),
+      emissiveIntensity:1.55,roughness:.05,metalness:.35,flatShading:true});
+    const carryGem=new THREE.Mesh(CARRY_GEM_GEO,carryGemMat);
+    carryGem.scale.set(1,1.55,1);carryGem.rotation.set(.2,.4,.15);carryGem.visible=false;
+    carry.add(carryGem);
+    G.userData={legs,ears,eyes,arms,head,mouth,sh,carry,carryCoin,carryGem,carryGemMat};
     return G;
   }
   const GOBS=[...Array(18)].map((_,i)=>{
@@ -3569,9 +3579,6 @@ function buildMine(){
     G.position.set(x,0,z);
     root.add(G);return G;
   });
-  /* gold: some was always here, and more arrives every time they are startled */
-  const GOLDM=new THREE.MeshStandardMaterial({color:lin("#E9B53C"),emissive:lin("#4A3200"),emissiveIntensity:.35,roughness:.28,metalness:.7});
-  function mkCoin(){return new THREE.Mesh(new THREE.CylinderGeometry(.075,.075,.018,14),GOLDM)}
   const COINS=[];
   function putCoin(x,y,z,tilt){const c=mkCoin();c.position.set(x,y,z);c.rotation.set(tilt||0,Math.random()*3,tilt?.4:0);root.add(c);COINS.push(c);return c}
   [[-.6,.008,.42,0],[-.52,.008,.5,0],[2.4,.008,-.2,0],[2.55,.02,-.26,.5],[1.1,.008,.6,0],[3.2,.008,.3,0]].forEach(a2=>putCoin(...a2));
@@ -3581,26 +3588,98 @@ function buildMine(){
   const sh=new THREE.Group();root.add(sh);
   const m=new THREE.Group();root.add(m);          /* kept so the old guards stay harmless */
   const beam={material:{opacity:0}};
-  return {scene,cam,root,GOBS,COINS,putCoin,left,sh,m,CR,beam,SPK,glow,seamLight};
+  return {scene,cam,root,seam,GOBS,COINS,putCoin,left,sh,m,CR,GEMS_FLOOR,GEM,crFrac:1,beam,SPK,glow,seamLight};
 }
 function mineOpen(){
   if(!MINE.v)MINE.v=buildMine();
   const V=MINE.v;MINE.t=0;
-  /* pull all the way and they are long gone; a normal peek catches them at work */
-  MINE.mode=PULL.bot>=1?"gone":"busy";
-  const gone=MINE.mode==="gone";
+  /* first pull catches the whole crew of 18; later pulls catch 3-5 stragglers stealing gold & crystals */
+  const raiders=PULL.bot>=1;
+  MINE.raiders=raiders;
+  MINE.mode=raiders?"steal":"busy";
+  const MIN_COINS=4, MIN_CR=5;
   V.GOBS.forEach((G,i)=>{
     const u=G.userData;
-    G.visible=!gone;
+    G.visible=!raiders;
     G.position.set(u.home[0],0,u.home[1]);
     G.rotation.set(0,(i%2?1:-1)*(.6+(i%3)*.3),0);
     G.scale.setScalar(u.sc);
     u.dropped=false;
     u.dropAt=.25+((i*17)%9)*.09;
     u.run=-1;                          /* out into the dark, away from the lit seam */
+    u.grabbed=false;
+    u.grabAt=.2;
+    u.stealKind=null;
+    u.stealTarget=null;
+    u.carryCoin.visible=false;
+    u.carryGem.visible=false;
     u.ears.forEach(e=>e.rotation.x=-.25);
     u.eyes.forEach(e=>e.scale.setScalar(1));
   });
+  if(!raiders)return;
+  const count=3+Math.floor(Math.random()*3); /* 3 to 5 stragglers */
+  const pool=V.GOBS.map((_,i)=>i);
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const tmp=pool[i];pool[i]=pool[j];pool[j]=tmp}
+  const chosen=pool.slice(0,count);
+  const visCoins=V.COINS.filter(c=>c.visible);
+  const availCoins=visCoins.length>MIN_COINS?visCoins.slice(MIN_COINS):[];
+  const availGems=[...V.GEMS_FLOOR.filter(g=>g.visible),...V.CR.slice(MIN_CR).filter(c=>c.visible)];
+  const seamPos=[[3.55,-.25],[3.95,.18],[3.25,.32],[4.15,-.35],[3.7,.45]];
+  let gemSlot=0;
+  chosen.forEach((gi,idx)=>{
+    const G=V.GOBS[gi],u=G.userData;
+    G.visible=true;
+    /* mix of gold thieves and crystal thieves on every raid */
+    const wantGem=(idx%2===1);
+    u.stealKind=wantGem?"gem":"coin";
+    u.grabbed=false;
+    u.grabAt=.14+idx*.07;
+    if(wantGem){
+      const tgt=availGems.length?availGems.shift():null;
+      u.stealTarget=tgt;
+      const gIdx=tgt?tgt.userData.gemIdx:V.CR[idx%MIN_CR].userData.gemIdx;
+      const [col,em]=V.GEM[gIdx];
+      u.carryGemMat.color.set(lin(col));
+      u.carryGemMat.emissive.set(lin(em));
+      let sx,sz;
+      if(tgt&&V.GEMS_FLOOR.includes(tgt)){
+        sx=clamp(V.seam.position.x+tgt.position.x*V.seam.scale.x-.22,2.6,4.25);
+        sz=clamp(V.seam.position.z+tgt.position.z*V.seam.scale.z,-.5,.6);
+      }else{
+        const p=seamPos[gemSlot++%seamPos.length];
+        sx=p[0]+(Math.random()-.5)*.16;sz=p[1]+(Math.random()-.5)*.12;
+      }
+      G.position.set(sx,0,sz);
+      G.rotation.set(0,1.15+(Math.random()-.5)*.45,0); /* facing the crystal seam */
+    }else{
+      let tgt=null;
+      if(availCoins.length){
+        const ci=Math.floor(Math.random()*availCoins.length);
+        tgt=availCoins.splice(ci,1)[0];
+      }
+      u.stealTarget=tgt;
+      const ref=tgt||visCoins[idx%visCoins.length];
+      const cx=ref?clamp(ref.position.x-.12+((idx%2)?.14:-.08),-.9,3.3):(.1+idx*.65);
+      const cz=ref?clamp(ref.position.z+.06,-.5,.65):((idx%2)?.35:-.2);
+      G.position.set(cx,0,cz);
+      G.rotation.set(0,(ref&&ref.position.x<cx?-1.1:1.1)+(Math.random()-.5)*.4,0);
+    }
+  });
+}
+function mineSnatch(V,G){
+  const u=G.userData;
+  if(u.grabbed)return;
+  u.grabbed=true;
+  if(u.stealTarget&&u.stealTarget.visible){
+    u.stealTarget.visible=false;
+    if(u.stealKind==="gem"){
+      let vis=0;for(let k=0;k<V.CR.length;k++)if(V.CR[k].visible)vis++;
+      V.crFrac=vis/V.CR.length;
+    }
+  }
+  u.carryCoin.visible=(u.stealKind==="coin");
+  u.carryGem.visible=(u.stealKind==="gem");
+  if(soundOn)bloop(u.stealKind==="gem"?1220:940,u.stealKind==="gem"?1680:1280,.05,.04);
 }
 function mineTick(time,dt,rect,VP){
   if(!MINE.v)return;
@@ -3614,43 +3693,72 @@ function mineTick(time,dt,rect,VP){
       G.rotation.y+=Math.sin(time*.7+u.ph)*dt*.5*r;
     });
     if(t>.55){MINE.mode="spot";MINE.t=0;if(soundOn)bloop(880,1500,.07,.05)}
+  }else if(MINE.mode==="steal"){
+    /* stragglers hunched over coins and crystals, snatching loot into their arms */
+    V.GOBS.forEach(G=>{
+      if(!G.visible)return;
+      const u=G.userData,w=Math.sin(time*8.5+u.ph);
+      if(!u.grabbed&&t>u.grabAt)mineSnatch(V,G);
+      if(u.grabbed){
+        G.position.y=Math.max(0,(.055-(t-u.grabAt)*.35))*r;
+        u.arms.forEach(a2=>a2.rotation.x=lerp(a2.rotation.x,-1.05,Math.min(1,dt*14)));
+      }else{
+        G.position.y=Math.abs(w)*.025*r;
+        u.arms.forEach((a2,k)=>a2.rotation.x=(-.65+(k?w:-w)*.45)*r);
+      }
+      u.legs.forEach(l=>l.rotation.x=0);
+    });
+    if(t>.58){
+      V.GOBS.forEach(G=>{if(G.visible&&!G.userData.grabbed)mineSnatch(V,G)});
+      MINE.mode="spot";MINE.t=0;if(soundOn)bloop(880,1500,.07,.05);
+    }
   }else if(MINE.mode==="spot"){
     /* every one of them stops and looks straight out at you */
     const u2=ss(0,.42,t);
-    V.GOBS.forEach(G=>{const u=G.userData;
+    V.GOBS.forEach(G=>{
+      if(!G.visible)return;
+      const u=G.userData;
       G.rotation.y=lerp(G.rotation.y,0,Math.min(1,dt*9));
       G.position.y=0;
-      u.arms.forEach(a2=>a2.rotation.x=lerp(a2.rotation.x,-.25,Math.min(1,dt*9)));
+      const armT=u.grabbed?-1.05:-.25;
+      u.arms.forEach(a2=>a2.rotation.x=lerp(a2.rotation.x,armT,Math.min(1,dt*9)));
       u.ears.forEach(e=>e.rotation.x=-.25-u2*.5);            /* ears up */
       u.eyes.forEach(e=>e.scale.setScalar(1+u2*.5));         /* eyes wide */
     });
-    if(t>.75){MINE.mode="flee";MINE.t=0;if(soundOn){bloop(300,170,.16,.09);setTimeout(()=>crunch(),90)}}
+    const spotDur=MINE.raiders?.6:.75;
+    if(t>spotDur){MINE.mode="flee";MINE.t=0;if(soundOn){bloop(300,170,.16,.09);setTimeout(()=>crunch(),90)}}
   }else if(MINE.mode==="flee"){
     V.GOBS.forEach((G,i)=>{const u=G.userData;
       if(!G.visible)return;
-      const sp=u.sp*(1+i%3*.1);
+      const sp=u.sp*(1+i%3*.1)*(MINE.raiders?1.15:1);
       G.position.x+=u.run*sp*dt;
       G.rotation.y=u.run<0?-1.57:1.57;
       G.position.y=Math.abs(Math.sin(time*18+u.ph))*.04*r;
       u.legs.forEach((l,k)=>l.rotation.x=Math.sin(time*18+u.ph+k*Math.PI)*.85*r);
-      u.arms.forEach((a2,k)=>a2.rotation.x=Math.sin(time*13+u.ph+k*Math.PI)*.9*r);
-      /* each one sheds a coin as it bolts, and the coin stays */
-      if(!u.dropped&&t>u.dropAt){u.dropped=true;
-        V.putCoin(G.position.x,.008,G.position.z+.06,0);
-        MINE.loot++;
+      if(u.grabbed){
+        /* clutch the stolen gold or crystal tight while bolting */
+        u.arms.forEach((a2,k)=>a2.rotation.x=-1.05+Math.sin(time*18+u.ph+k*.6)*.14*r);
+      }else{
+        u.arms.forEach((a2,k)=>a2.rotation.x=Math.sin(time*13+u.ph+k*Math.PI)*.9*r);
+        /* on the first scatter, each one sheds a coin as it bolts, and the coin stays */
+        if(!MINE.raiders&&!u.dropped&&t>u.dropAt){u.dropped=true;
+          V.putCoin(G.position.x,.008,G.position.z+.06,0);
+          MINE.loot++;
+        }
       }
-      if(G.position.x<-3.4)G.visible=false;
+      if(G.position.x<-3.8)G.visible=false;
     });
   }
-  V.CR.forEach((c,i)=>{c.rotation.y+=dt*(.22+i*.035)*r;
+  V.CR.forEach((c,i)=>{if(!c.visible)return;c.rotation.y+=dt*(.22+i*.035)*r;
     const f=Math.sin(time*2.6+c.userData.ph),g2=Math.sin(time*7.3+c.userData.ph*2.1);
     c.material.emissiveIntensity=1.25+(f*.5+g2*.35)*r});
   V.SPK.forEach((m,i)=>{const u=(time*.9+m.userData.ph)%2.6;
     const a=u<.5?Math.sin(u/.5*Math.PI):0;
-    m.material.opacity=a*.95*r;m.scale.setScalar(.5+a*.9);m.rotation.z=u*2});
-  V.COINS.forEach((c,i)=>{c.material.emissiveIntensity=.3+Math.sin(time*3.1+i)*.18*r});
-  V.glow.material.opacity=(.72+Math.sin(time*1.7)*.16*r);
-  V.seamLight.intensity=2.4+Math.sin(time*2.1)*.7*r;
+    m.material.opacity=a*.95*r*(.6+.4*V.crFrac);m.scale.setScalar(.5+a*.9);m.rotation.z=u*2});
+  V.COINS.forEach((c,i)=>{if(!c.visible)return;c.material.emissiveIntensity=.3+Math.sin(time*3.1+i)*.18*r});
+  const glK=.6+.4*V.crFrac;
+  V.glow.material.opacity=(.72+Math.sin(time*1.7)*.16*r)*glK;
+  V.seamLight.intensity=(2.4+Math.sin(time*2.1)*.7*r)*glK;
   const c=inter(rect,VP);if(!c||rect.height<24)return;
   V.cam.aspect=Math.max(.3,rect.width/rect.height);
   V.cam.position.copy(MINECAM).multiplyScalar(Math.max(1,1.9/V.cam.aspect));
@@ -3670,10 +3778,8 @@ const QZ_AFTER=300;                  /* five minutes of being here, not five min
 function helloSnoozed(){try{return Date.now()<+(localStorage.getItem("ddyk-hello-snooze")||0)}catch(e){return false}}
 function helloSnooze(days){try{localStorage.setItem("ddyk-hello-snooze",Date.now()+days*864e5)}catch(e){}}
 function helloCard(){
-  const n=met().filter(id=>TERMS.some(t=>t.id===id)).length,j=judgedCount(),k=knewCount();
-  const line=j>=3
-    ? `You have opened <b>${n}</b> of the ${TERMS.length}, and <b>${j-k}</b> of them were news to you.`
-    : (n?`You have opened <b>${n}</b> of the ${TERMS.length}.`:`You have not opened a single one.`);
+  const n=met().filter(id=>TERMS.some(t=>t.id===id)).length;
+  const line=n?`You have opened <b>${n}</b> of the ${TERMS.length}.`:`You have not opened a single one.`;
   const d=document.createElement("div");d.className="qz";d.setAttribute("role","dialog");
   d.innerHTML=`<p class="qz-l">Still here.</p>
     <p class="qz-s">${line} If any of it was new, come and say so — I read every one.</p>
@@ -4011,16 +4117,6 @@ const pop=$("#pop"),scrim=$("#scrim"),stage=$("#stage"),words=$("#words");
 const P={open:false,view:null,out:null,enter:null,flight:null,lastFocus:null,cur:null,target:null,drag:null,mode:"real",mt:0,anchor:null,typed:false,leaf:false,bites:0,leafGone:false,lastBite:0};
 const uil=$("#uil"),seg=pop.querySelector(".seg");
 
-/* ================= did you know it? ================= */
-const KNEW=()=>{try{return JSON.parse(localStorage.getItem("ddyk-knew")||"{}")}catch(e){return{}}};
-function setKnew(id,v){try{const k=KNEW();k[id]=v?1:0;localStorage.setItem("ddyk-knew",JSON.stringify(k))}catch(e){}}
-function knewCount(){const k=KNEW();return TERMS.filter(t=>k[t.id]===1).length}
-function judgedCount(){const k=KNEW();return TERMS.filter(t=>Object.prototype.hasOwnProperty.call(k,t.id)).length}
-function verdict(id,v,advance){
-  setKnew(id,v);
-  if(soundOn)v?bloop(520,880,.09,.07):bloop(300,220,.12,.07);
-  if(advance)setTimeout(()=>step(1,"card"),120);
-}
 function fillWords(id){
   const i=TERMS.findIndex(t=>t.id===id),t=TERMS[i],n=TERMS.length;
   const prev=TERMS[(i-1+n)%n],next=TERMS[(i+1)%n],pad=x=>String(x).padStart(2,"0");
@@ -4234,7 +4330,7 @@ const endDrag=()=>{if(P.view&&P.view.obj.holding)P.view.obj.release(nowS());if(P
 stage.addEventListener("pointerup",endDrag);stage.addEventListener("pointercancel",endDrag);
 stage.addEventListener("pointerleave",()=>{if(P.leaf&&P.view&&P.view.obj.sulk)P.view.obj.sulk(nowS());P.inside=false;P.leaf=false;if(!P.drag)P.target=null});
 
-/* swipe between terms: sideways, and vertically like reels.
+/* swipe vertically between terms like reels.
    Reading comes first: a vertical swipe only moves on when whatever is under the finger
    had nothing left to scroll when the gesture began AND still has nothing left at release. */
 const NOSWIPE=".stage,input,textarea,select,button,a,.demo,.ui-layer";
@@ -4253,47 +4349,10 @@ pop.addEventListener("pointerdown",e=>{
   const sc=scrollerUnder(e.target);
   sw={x:e.clientX,y:e.clientY,sc,top:edgeTop(sc),bot:edgeBot(sc)};
 });
-pop.addEventListener("pointercancel",()=>{sw=null;if(FL.on)flEnd()});
-/* Sideways is the verdict: throw it right if you knew it, left if it is news.
-   The card only translates, never rotates — the clay is drawn into the card's own rectangle,
-   and a rotated rectangle would stretch the object as it turned. */
-const stL=$("#st-l"),stR=$("#st-r"),FL={on:false,dx:0};
-function flShow(dx){
-  const t=x=>String(clamp(x/110,0,1));
-  stR.style.opacity=dx>0?t(dx):"0";
-  stL.style.opacity=dx<0?t(-dx):"0";
-}
-function flSet(dx,sm){
-  pop.style.transition=sm?"transform .26s cubic-bezier(.2,.8,.2,1)":"none";
-  const g=clamp(Math.abs(dx)/160,0,1);
-  pop.style.transform=dx?"translate3d("+dx.toFixed(1)+"px,0,0) scale("+(1-g*.035).toFixed(3)+")":"";
-}
-function flEnd(){FL.on=false;FL.dx=0;flShow(0);flSet(0,true);setTimeout(()=>{pop.style.transition=""},300)}
-function flThrow(right){
-  const w=innerWidth*1.15;
-  FL.on=false;flShow(right?130:-130);
-  flSet(right?w:-w,true);
-  setTimeout(()=>{
-    verdict(P.cur,right?1:0,false);
-    flShow(0);
-    flSet(right?-w:w,false);                 /* the next card waits on the other side */
-    requestAnimationFrame(()=>{step(1,"card");requestAnimationFrame(()=>flSet(0,true))});
-    setTimeout(()=>{pop.style.transition=""},340);
-  },270);
-}
-pop.addEventListener("pointermove",e=>{
-  if(!sw||e.pointerType!=="touch")return;
-  const dx=e.clientX-sw.x,dy=e.clientY-sw.y;
-  if(!FL.on){
-    if(Math.abs(dx)<14||Math.abs(dx)<Math.abs(dy)*1.3)return;
-    FL.on=true;
-  }
-  FL.dx=dx;flSet(dx*.92,false);flShow(dx);
-});
+pop.addEventListener("pointercancel",()=>{sw=null});
 pop.addEventListener("pointerup",e=>{
   if(!sw)return;const s=sw;sw=null;
   const dx=e.clientX-s.x,dy=e.clientY-s.y;
-  if(FL.on){ if(Math.abs(dx)>96)flThrow(dx>0); else flEnd(); return }
   if(Math.abs(dy)>72&&Math.abs(dy)>Math.abs(dx)*1.4){
     /* up means onward */
     if(dy<0?(s.bot&&edgeBot(s.sc)):(s.top&&edgeTop(s.sc)))step(dy<0?1:-1,"y");
