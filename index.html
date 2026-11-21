@@ -919,7 +919,7 @@ const hl=x=>x.replace(/==(.+?)==/g,'<mark>$1</mark>');
 TERMS.forEach(t=>{const x=SHORT[t.id];if(x){t.hook=hl(x[0]);t.ui=hl(x[1])}});
 const slugify=v=>v.normalize("NFKD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
 const UIDEMO={
- toast:{keep:sr=>({left:sr.left+sr.width*.12,top:sr.top+sr.height*.04,width:sr.width*.76,height:sr.height*.58}),
+ toast:{keep:sr=>{const l=sr.left+sr.width*.12,t=sr.top+sr.height*.04,w=sr.width*.76,h=sr.height*.58;return{left:l,top:t,width:w,height:h,right:l+w,bottom:t+h}},
   html:`<div class="tst-wrap"><button class="tst-hit" aria-label="Press the toaster lever to send a toast"></button><div class="tst-stack" aria-live="polite"></div><p class="tst-hint">Tap the toaster to send a toast</p></div>`,
   init(r){const stack=r.querySelector(".tst-stack"),hit=r.querySelector(".tst-hit");const MSG=["Saved","Link copied","Toasted to perfection","Changes published","Added to cart"];let k=0,busy=0;
    hit.onclick=()=>{const v=P.view;if(!v||!v.obj.sendOne||performance.now()<busy)return;busy=performance.now()+500;v.obj.sendOne(nowS());
@@ -969,7 +969,7 @@ const UIDEMO={
 };
 
 /* In UI for the rest: clay object on top, real component below, linked */
-const KEEP_TOP=sr=>{const mob=sr.width<=420;const h=mob?Math.min(sr.height*.35,160):sr.height*.42,w=Math.min(sr.width*.86,h*1.25),topOff=mob?10:16;return{left:sr.left+(sr.width-w)/2,top:sr.top+topOff,width:w,height:h}};
+const KEEP_TOP=sr=>{const mob=sr.width<=420;const h=mob?Math.min(sr.height*.35,160):sr.height*.42,w=Math.min(sr.width*.86,h*1.25),topOff=mob?10:16,l=sr.left+(sr.width-w)/2,t=sr.top+topOff;return{left:l,top:t,width:w,height:h,right:l+w,bottom:t+h}};
 const UO=()=>P.view&&P.view.obj;
 const LINK={
  breadcrumb(r){const f=()=>setTimeout(()=>{const o=UO(),d=r.querySelectorAll(".crumbs li").length;o&&o.setN&&o.setN(d/5*7)},0);r.addEventListener("click",f);f()},
@@ -4878,7 +4878,7 @@ function stageRect(){
   const h=Math.max(72,r.height-SI.t-SI.b);
   return {left:r.left,top:r.top+SI.t,width:r.width,height:h,right:r.right,bottom:r.top+SI.t+h};
 }
-function inter(a,b){const l=Math.max(a.left,b.left),t=Math.max(a.top,b.top),r=Math.min(a.right,b.right),bo=Math.min(a.bottom,b.bottom);return r>l&&bo>t?{left:l,top:t,right:r,bottom:bo,width:r-l,height:bo-t}:null}
+function inter(a,b){if(!a||!b)return null;const ar=a.right??a.left+a.width,ab=a.bottom??a.top+a.height,br=b.right??b.left+b.width,bb=b.bottom??b.top+b.height;const l=Math.max(a.left,b.left),t=Math.max(a.top,b.top),r=Math.min(ar,br),bo=Math.min(ab,bb);return r>l&&bo>t?{left:l,top:t,right:r,bottom:bo,width:r-l,height:bo-t}:null}
 function draw(v,rect,clip,keepDepth){
   v.lastRect=rect;
   const H=canvas.clientHeight,W=canvas.clientWidth;
