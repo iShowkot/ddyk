@@ -8,7 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = process.env.NGINX_PORT || process.env.DEFAULT_APP_PORT
+  ? Number(process.env.DEFAULT_APP_PORT) || 3000
+  : (Number(process.env.PORT) || 3000);
 const HOST = '0.0.0.0';
 
 const BLOCKED_PATHS = new Set([
@@ -44,11 +46,6 @@ function getCompressedAsset(filename) {
   return entry;
 }
 
-// Pre-warm compressed buffers at startup so first request has 0ms compression latency
-for (const { file } of new Set(COMPRESSIBLE.values())) {
-  try { getCompressedAsset(file); } catch { /* ignore if absent */ }
-}
-
 app.use((req, res, next) => {
   if (BLOCKED_PATHS.has(req.path) || req.path.startsWith('/node_modules')) {
     return res.status(404).end();
@@ -57,7 +54,13 @@ app.use((req, res, next) => {
 });
 
 function sendCompressed(req, res, meta) {
-  const asset = getCompressedAsset(meta.file);
+  let asset;
+  try {
+    asset = getCompressedAsset(meta.file);
+  } catch (err) {
+    console.error(`Failed to load ${meta.file}:`, err);
+    return res.status(500).end();
+  }
   res.setHeader('Content-Type', meta.type);
   res.setHeader('Cache-Control', meta.cache);
   res.setHeader('Vary', 'Accept-Encoding');
@@ -66,18 +69,16 @@ function sendCompressed(req, res, meta) {
     return res.status(304).end();
   }
   const ae = String(req.headers['accept-encoding'] || '');
+  let body = asset.raw;
   if (ae.includes('br')) {
     res.setHeader('Content-Encoding', 'br');
-    res.setHeader('Content-Length', asset.br.length);
-    return res.send(asset.br);
-  }
-  if (ae.includes('gzip')) {
+    body = asset.br;
+  } else if (ae.includes('gzip')) {
     res.setHeader('Content-Encoding', 'gzip');
-    res.setHeader('Content-Length', asset.gz.length);
-    return res.send(asset.gz);
+    body = asset.gz;
   }
-  res.setHeader('Content-Length', asset.raw.length);
-  return res.send(asset.raw);
+  res.setHeader('Content-Length', body.length);
+  return req.method === 'HEAD' ? res.status(200).end() : res.status(200).end(body);
 }
 
 app.use((req, res, next) => {
@@ -99,4 +100,9 @@ app.use((req, res) => {
 
 app.listen(PORT, HOST, () => {
   console.log(`DDYK static server listening at http://${HOST}:${PORT}`);
+  setImmediate(() => {
+    for (const file of new Set([...COMPRESSIBLE.values()].map((m) => m.file))) {
+      try { getCompressedAsset(file); } catch { /* ignore if absent */ }
+    }
+  });
 });
